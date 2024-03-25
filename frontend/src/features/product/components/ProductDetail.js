@@ -4,6 +4,8 @@ import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProductByIdAsync, selectProductById } from "../productSlice";
 import { useParams } from "react-router-dom";
+import { addToCartAsync } from "../../cart/cartSlice";
+import { selectLoggedInUser } from "../../auth/authSlice";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -40,6 +42,7 @@ const ProductDetail = () => {
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
+  const user = useSelector(selectLoggedInUser);
 
   console.log(params.id);
 
@@ -48,6 +51,13 @@ const ProductDetail = () => {
   }, [dispatch, params.id]);
 
   console.log("Product is: ", product);
+
+  const handleCart = (e) => {
+    e.preventDefault();
+    // product already ha ... krke hasil krlia
+    // user ki info ke begair pta hi nahi chala ga kis particular user ka hai and user ki state le aye
+    dispatch(addToCartAsync({ ...product, quantity: 1, user: user.id }));
+  };
 
   return (
     <div className="bg-white">
@@ -295,6 +305,7 @@ const ProductDetail = () => {
                 </div>
 
                 <button
+                  onClick={handleCart}
                   type="submit"
                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
