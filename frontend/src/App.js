@@ -13,10 +13,19 @@ import CartPage from "./pages/CartPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import Checkout from "./pages/Checkout";
 
+import Protected from "./features/auth/components/Protected";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectLoggedInUser } from "./features/auth/authSlice";
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>,
+    element: (
+      <Protected>
+        <Home></Home>
+      </Protected>
+    ),
   },
   {
     path: "/login",
@@ -28,19 +37,34 @@ const router = createBrowserRouter([
   },
   {
     path: "/cart",
-    element: <CartPage></CartPage>,
+    element: (
+      <Protected>
+        <CartPage></CartPage>
+      </Protected>
+    ),
   },
   {
     path: "/checkout",
-    element: <Checkout></Checkout>,
+    element: (
+      <Protected>
+        <Checkout></Checkout>
+      </Protected>
+    ),
   },
   {
     path: "/product-detail/:id",
-    element: <ProductDetailPage></ProductDetailPage>,
+    element: (
+      <Protected>
+        <ProductDetailPage></ProductDetailPage>
+      </Protected>
+    ),
   },
 ]);
 
 function App() {
+  // const dispatch = useDispatch();
+  // const user = useSelector(selectLoggedInUser);
+
   return (
     <div className="App">
       <RouterProvider router={router} />
