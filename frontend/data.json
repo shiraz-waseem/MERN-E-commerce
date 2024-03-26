@@ -2446,7 +2446,27 @@
     {
       "id": "15a1",
       "email": "shirazwaseem321@gmail.com",
-      "password": "@abcdABCD1"
+      "password": "@abcdABCD1",
+      "addresses": [
+        {
+          "name": "xazxz",
+          "email": "shirazwaseem321@gmail.com",
+          "phone": "121",
+          "street": "121",
+          "city": "a",
+          "state": "a",
+          "pinCode": "a"
+        },
+        {
+          "name": "Shiraz",
+          "email": "shirazwaseem321@gmail.com",
+          "phone": "+923366841431",
+          "street": "Block 1",
+          "city": "Karachi",
+          "state": "Sindh",
+          "pinCode": "121"
+        }
+      ]
     }
   ],
   "cart": [
@@ -2469,6 +2489,90 @@
       ],
       "quantity": 1,
       "user": 2
+    },
+    {
+      "id": "6fcf",
+      "title": "MacBook Pro",
+      "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+      "price": 1749,
+      "discountPercentage": 11.02,
+      "rating": 4.57,
+      "stock": 83,
+      "brand": "Apple",
+      "category": "laptops",
+      "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
+      "images": [
+        "https://i.dummyjson.com/data/products/6/1.png",
+        "https://i.dummyjson.com/data/products/6/2.jpg",
+        "https://i.dummyjson.com/data/products/6/3.png",
+        "https://i.dummyjson.com/data/products/6/4.jpg"
+      ],
+      "quantity": 5,
+      "user": "15a1"
+    }
+  ],
+  "orders": [
+    {
+      "id": "cf3f",
+      "items": [
+        {
+          "id": "6fcf",
+          "title": "MacBook Pro",
+          "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+          "price": 1749,
+          "discountPercentage": 11.02,
+          "rating": 4.57,
+          "stock": 83,
+          "brand": "Apple",
+          "category": "laptops",
+          "thumbnail": "https://i.dummyjson.com/data/products/6/thumbnail.png",
+          "images": [
+            "https://i.dummyjson.com/data/products/6/1.png",
+            "https://i.dummyjson.com/data/products/6/2.jpg",
+            "https://i.dummyjson.com/data/products/6/3.png",
+            "https://i.dummyjson.com/data/products/6/4.jpg"
+          ],
+          "quantity": 5,
+          "user": "15a1"
+        }
+      ],
+      "totalAmount": 8745,
+      "totalItems": 5,
+      "user": {
+        "id": "15a1",
+        "email": "shirazwaseem321@gmail.com",
+        "password": "@abcdABCD1",
+        "addresses": [
+          {
+            "name": "xazxz",
+            "email": "shirazwaseem321@gmail.com",
+            "phone": "121",
+            "street": "121",
+            "city": "a",
+            "state": "a",
+            "pinCode": "a"
+          },
+          {
+            "name": "Shiraz",
+            "email": "shirazwaseem321@gmail.com",
+            "phone": "+923366841431",
+            "street": "Block 1",
+            "city": "Karachi",
+            "state": "Sindh",
+            "pinCode": "121"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Shiraz",
+        "email": "shirazwaseem321@gmail.com",
+        "phone": "+923366841431",
+        "street": "Block 1",
+        "city": "Karachi",
+        "state": "Sindh",
+        "pinCode": "121"
+      }
     }
   ]
 }

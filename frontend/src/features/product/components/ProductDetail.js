@@ -56,7 +56,14 @@ const ProductDetail = () => {
     e.preventDefault();
     // product already ha ... krke hasil krlia
     // user ki info ke begair pta hi nahi chala ga kis particular user ka hai and user ki state le aye
-    dispatch(addToCartAsync({ ...product, quantity: 1, user: user.id }));
+    // mera chal rha tha
+    // dispatch(addToCartAsync({ ...product, quantity: 1, user: user.id }));
+
+    const newItem = { ...product, quantity: 1, user: user.id };
+    // console.log(newItem); // you can see userId but string mein hai so hamara lia tw chal rha
+    delete newItem["id"];
+    // console.log("After deleting: ", newItem);
+    dispatch(addToCartAsync(newItem));
   };
 
   return (
