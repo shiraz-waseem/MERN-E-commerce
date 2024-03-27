@@ -46,3 +46,18 @@ export function deleteItemFromCart(itemId) {
     resolve({ data: { id: itemId } });
   });
 }
+
+export function resetCart(userId) {
+  // get all items of user's cart - and then delete each
+
+  // we have to remove all the items
+  return new Promise(async (resolve) => {
+    const response = await fetchItemsByUserId(userId); // json mein convert krchuka already since method mein defined
+    const items = response.data;
+    for (let item of items) {
+      // jitna items us mein sy
+      await deleteItemFromCart(item.id); // delete method wants the id
+    }
+    resolve({ status: "success" }); // pta chal jata
+  });
+}
