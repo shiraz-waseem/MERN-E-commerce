@@ -2456,6 +2456,15 @@
           "city": "Karachi",
           "state": "Sindh",
           "pinCode": "a"
+        },
+        {
+          "name": "m",
+          "email": "m@m.com",
+          "phone": "m12",
+          "street": "m",
+          "city": "m",
+          "state": "m",
+          "pinCode": "m"
         }
       ]
     },
@@ -3134,6 +3143,90 @@
         "city": "a",
         "state": "a",
         "pinCode": "A"
+      },
+      "status": "pending"
+    },
+    {
+      "id": "9949",
+      "items": [
+        {
+          "id": "ca60",
+          "title": "Hyaluronic Acid Serum",
+          "description": "L'OrÃ©al Paris introduces Hyaluron Expert Replumping Serum formulated with 1.5% Hyaluronic Acid",
+          "price": 19,
+          "discountPercentage": 13.31,
+          "rating": 4.83,
+          "stock": 110,
+          "brand": "L'Oreal Paris",
+          "category": "skincare",
+          "thumbnail": "https://i.dummyjson.com/data/products/16/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/16/1.png",
+            "https://i.dummyjson.com/data/products/16/2.webp",
+            "https://i.dummyjson.com/data/products/16/3.jpg",
+            "https://i.dummyjson.com/data/products/16/4.jpg",
+            "https://i.dummyjson.com/data/products/16/thumbnail.jpg"
+          ],
+          "quantity": 2,
+          "user": "15a1"
+        },
+        {
+          "id": "6f4f",
+          "title": "Skin Beauty Serum.",
+          "description": "Product name: rorec collagen hyaluronic acid white face serum riceNet weight: 15 m",
+          "price": 46,
+          "discountPercentage": 10.68,
+          "rating": 4.42,
+          "stock": 54,
+          "brand": "ROREC White Rice",
+          "category": "skincare",
+          "thumbnail": "https://i.dummyjson.com/data/products/19/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/19/1.jpg",
+            "https://i.dummyjson.com/data/products/19/2.jpg",
+            "https://i.dummyjson.com/data/products/19/3.png",
+            "https://i.dummyjson.com/data/products/19/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": "15a1"
+        }
+      ],
+      "totalAmount": 84,
+      "totalItems": 3,
+      "user": {
+        "id": "15a1",
+        "email": "shirazwaseem321@gmail.com",
+        "password": "@abcdABCD1",
+        "addresses": [
+          {
+            "name": "Shiraz is Here",
+            "email": "ahsah",
+            "phone": "+923366841431",
+            "street": "abcd",
+            "city": "Karachi",
+            "state": "Sindh",
+            "pinCode": "a"
+          },
+          {
+            "name": "m",
+            "email": "m@m.com",
+            "phone": "m12",
+            "street": "m",
+            "city": "m",
+            "state": "m",
+            "pinCode": "m"
+          }
+        ]
+      },
+      "paymentMethod": "card",
+      "selectedAddress": {
+        "name": "m",
+        "email": "m@m.com",
+        "phone": "m12",
+        "street": "m",
+        "city": "m",
+        "state": "m",
+        "pinCode": "m"
       },
       "status": "pending"
     }
