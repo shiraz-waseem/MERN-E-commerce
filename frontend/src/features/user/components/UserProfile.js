@@ -62,10 +62,16 @@ const UserProfile = () => {
             Name: {user.name ? user.name : "Guest User"}
           </h1>
           <h3 className="text-xl my-5 font-bold tracking-tight text-red-900">
-            email address: {user.email}
+            Email address: {user.email}
           </h3>
-        </div>
 
+          {/* role if admin */}
+          {user.role === "admin" && (
+            <h3 className="text-xl my-5 font-bold tracking-tight text-red-900">
+              Role : {user.role}
+            </h3>
+          )}
+        </div>
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           {/* button at top */}
           <button

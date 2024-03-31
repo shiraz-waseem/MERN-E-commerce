@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 import CartPage from "./pages/CartPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import Checkout from "./pages/Checkout";
@@ -20,6 +20,13 @@ import { fetchLoggedInUserAsync } from "./features/user/userSlice";
 import Logout from "./features/auth/components/Logout";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
+// Admins
+import ProtectedAdmin from "./features/auth/components/ProtectedAdmin";
+import AdminHome from "./pages/AdminHome";
+import AdminProductDetailPage from "./pages/AdminProductDetailPage";
+import AdminProductFormPage from "./pages/AdminProductFormPage";
+// Admins
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +36,7 @@ const router = createBrowserRouter([
       </Protected>
     ),
   },
+
   {
     path: "/login",
     element: <LoginPage></LoginPage>,
@@ -82,6 +90,40 @@ const router = createBrowserRouter([
     path: "/forgot-password",
     element: <ForgotPasswordPage></ForgotPasswordPage>,
   },
+  // Admin routes
+  {
+    path: "/admin",
+    element: (
+      <ProtectedAdmin>
+        <AdminHome></AdminHome>
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-detail/:id",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductDetailPage></AdminProductDetailPage>
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-form",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductFormPage></AdminProductFormPage>
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-form/edit/:id",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductFormPage></AdminProductFormPage>
+      </ProtectedAdmin>
+    ),
+  },
+  // Admin end
   {
     path: "*",
     element: <PageNotFound></PageNotFound>,
@@ -101,6 +143,8 @@ function App() {
 
   return (
     <div className="App">
+      {/* Link must be inside the Provider */}
+
       <RouterProvider router={router} />
     </div>
   );
