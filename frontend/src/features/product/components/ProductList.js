@@ -34,7 +34,7 @@ import Pagination from "../../common/Pagination";
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
   { name: "Price: Low to High", sort: "price", order: "asc", current: false },
-  { name: "Price: High to Low", sort: "price", order: "desc", current: false },
+  { name: "Price: High to Low", sort: "-price", order: "desc", current: false },
 ];
 
 function classNames(...classes) {
@@ -102,12 +102,7 @@ const ProductList = () => {
   };
 
   const handleSort = (e, option) => {
-    // console.log(option); // sab kch mil rha
-    // const newFilter = { ...filter, _sort: option.sort, _order: option.order };      filter sy koi lena dena nahi
-    // setFilter(newFilter);
-    // dispatch(fetchProductsByFiltersAsync(newFilter));
-
-    const sort = { _sort: option.sort, _order: option.order };
+    const sort = { _sort: option.sort }; //sorting on behalf of regular price not on discount price
     console.log({ sort }); // sab mil rha in object form
     setSort(sort);
   };

@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   PencilIcon,
   EyeIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
+  ArrowUpCircleIcon,
+  ArrowDownCircleIcon,
 } from "@heroicons/react/24/outline";
 import Pagination from "../../common/Pagination";
 import {
@@ -26,27 +26,6 @@ const AdminOrders = () => {
 
   const [editableOrderId, setEditableOrderId] = useState(-1);
 
-  // Product page sy
-  useEffect(() => {
-    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchAllOrdersAsync({ sort, pagination }));
-  }, [dispatch, page, sort]);
-
-  const chooseColor = (status) => {
-    switch (status) {
-      case "pending":
-        return "bg-purple-200 text-purple-600";
-      case "dispatched":
-        return "bg-yellow-200 text-yellow-600";
-      case "delivered":
-        return "bg-green-200 text-green-600";
-      case "cancelled":
-        return "bg-red-200 text-red-600";
-      default:
-        return "bg-purple-200 text-purple-600";
-    }
-  };
-
   const handleUpdate = (e, order) => {
     const updatedOrder = { ...order, status: e.target.value };
     dispatch(updateOrderAsync(updatedOrder));
@@ -65,55 +44,64 @@ const AdminOrders = () => {
     setPage(page);
   };
 
-  const handleSort = (option) => {
-    const sort = { _sort: option.sort, _order: option.order };
-    // console.log({ sort }); // sab mil rha in object form
-    setSort(sort);
+  const handleSort = (value) => {
+    console.log("Value of sort is: ", sort); // shru mein empty tw woh not equal arrow up le ata then arrow down as braber hujati phir
+    setSort(value);
   };
+  const chooseColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "bg-purple-200 text-purple-600";
+      case "dispatched":
+        return "bg-yellow-200 text-yellow-600";
+      case "delivered":
+        return "bg-green-200 text-green-600";
+      case "cancelled":
+        return "bg-red-200 text-red-600";
+      default:
+        return "bg-purple-200 text-purple-600";
+    }
+  };
+
+  // Product page sy
+  // _per_page ana thaa
+  useEffect(() => {
+    const pagination = { _page: page, _per_page: ITEMS_PER_PAGE };
+    dispatch(fetchAllOrdersAsync({ pagination, sort }));
+  }, [dispatch, page, sort]);
 
   return (
     <div className="overflow-x-auto">
       <div className=" bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
         <div className="w-full">
+          total Orders : {totalOrders}
           <div className="bg-white shadow-md rounded my-6">
             <table className="min-w-max w-full table-auto">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                  <th
-                    className="py-3 px-6 text-left cursor-pointer"
-                    onClick={(e) =>
-                      handleSort({
-                        sort: "id",
-                        // Click krke toggle phely asc tw desc
-                        order: sort?._order === "asc" ? "desc" : "asc",
-                      })
-                    }
-                  >
-                    Order#{" "}
-                    {sort._sort === "id" &&
-                      (sort._order === "asc" ? (
-                        <ArrowUpIcon className="w-4 h-4 inline"></ArrowUpIcon>
-                      ) : (
-                        <ArrowDownIcon className="w-4 h-4 inline"></ArrowDownIcon>
-                      ))}
-                  </th>
+                  <th className="py-3 px-6 text-left">Order# </th>
                   <th className="py-3 px-6 text-left">Items</th>
-                  <th
-                    className="py-3 px-6 text-left cursor-pointer"
-                    onClick={(e) =>
-                      handleSort({
-                        sort: "totalAmount",
-                        order: sort?._order === "asc" ? "desc" : "asc",
-                      })
-                    }
-                  >
+                  <th className="py-3 px-6 text-center md:table-cell">
                     Total Amount{" "}
-                    {sort._sort === "totalAmount" &&
-                      (sort._order === "asc" ? (
-                        <ArrowUpIcon className="w-4 h-4 inline"></ArrowUpIcon>
-                      ) : (
-                        <ArrowDownIcon className="w-4 h-4 inline"></ArrowDownIcon>
-                      ))}{" "}
+                    {
+                      <>
+                        {sort?._sort !== "totalAmount" ? (
+                          <ArrowUpCircleIcon
+                            className="w-6 h-6 ml-1 inline cursor-pointer"
+                            onClick={(e) =>
+                              handleSort({ _sort: "totalAmount" })
+                            }
+                          />
+                        ) : (
+                          <ArrowDownCircleIcon
+                            className="w-6 h-6 ml-1 inline  cursor-pointer"
+                            onClick={(e) =>
+                              handleSort({ _sort: "-totalAmount" })
+                            }
+                          />
+                        )}
+                      </>
+                    }{" "}
                   </th>
                   <th className="py-3 px-6 text-center">Shipping Address</th>
                   <th className="py-3 px-6 text-center">Status</th>
