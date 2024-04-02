@@ -45,7 +45,7 @@ export function fetchProductsByFilters(filter, sort, pagination) {
     const data = await response.json();
     console.log(data);
     const products = data.data;
-
+    console.log("products to products is: ", products);
     const totalItems = data.items;
     console.log(totalItems);
     // issue yahan py arha
