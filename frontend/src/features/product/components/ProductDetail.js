@@ -4,7 +4,7 @@ import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductByIdAsync, selectProductById } from "../productSlice";
 import { useParams } from "react-router-dom";
-import { addToCartAsync } from "../../cart/cartSlice";
+import { addToCartAsync, selectItems } from "../../cart/cartSlice";
 import { selectLoggedInUser } from "../../auth/authSlice";
 import { discountedPrice } from "../../../app/constants";
 const colors = [
@@ -43,6 +43,7 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const user = useSelector(selectLoggedInUser);
+  const items = useSelector(selectItems);
 
   console.log(params.id);
 
@@ -54,16 +55,21 @@ const ProductDetail = () => {
 
   const handleCart = (e) => {
     e.preventDefault();
-    // product already ha ... krke hasil krlia
-    // user ki info ke begair pta hi nahi chala ga kis particular user ka hai and user ki state le aye
-    // mera chal rha tha
-    // dispatch(addToCartAsync({ ...product, quantity: 1, user: user.id }));
-
-    const newItem = { ...product, quantity: 1, user: user.id };
-    // console.log(newItem); // you can see userId but string mein hai so hamara lia tw chal rha
-    delete newItem["id"];
-    // console.log("After deleting: ", newItem);
-    dispatch(addToCartAsync(newItem));
+    if (items.findIndex((item) => item.productId === product.id) < 0) {
+      console.log({ items, product });
+      const newItem = {
+        ...product,
+        productId: product.id, // always generate a id. If you want "id" conflict ajaye ga as id is a reserve keyword it works as primary key and now upper checked
+        quantity: 1,
+        user: user.id,
+      };
+      delete newItem["id"];
+      dispatch(addToCartAsync(newItem));
+      // TODO: it will be based on server response of backend
+      alert.error("Item added to Cart");
+    } else {
+      alert.error("Item Already added");
+    }
   };
 
   return (
