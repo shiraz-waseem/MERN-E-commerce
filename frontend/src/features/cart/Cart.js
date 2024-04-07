@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import {
   selectItems,
   deleteItemFromCartAsync,
   updateCartAsync,
+  selectCartStatus,
 } from "./cartSlice";
 import { discountedPrice } from "../../app/constants";
+import { Grid } from "react-loader-spinner";
+import Modal from "../common/Modal";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
-
+  const status = useSelector(selectCartStatus);
+  const [openModal, setOpenModal] = useState(null);
   // Total Quantity and Amount
   // First paramameter is accumulator
   const totalAmount = items.reduce(
@@ -41,6 +45,18 @@ const Cart = () => {
           </h1>
           <div className="mt-8">
             <div className="flow-root">
+              {status === "loading" ? (
+                <Grid
+                  height="80"
+                  width="80"
+                  color="rgb(79, 70, 229) "
+                  ariaLabel="grid-loading"
+                  radius="12.5"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                />
+              ) : null}
               <ul className="-my-6 divide-y divide-gray-200">
                 {items.map((item) => (
                   <li key={item.id} className="flex py-6">
@@ -90,8 +106,21 @@ const Cart = () => {
                         </div>
 
                         <div className="flex">
+                          <Modal
+                            title={`Delete ${item.title}`}
+                            message="Are you sure you want to delete this Cart item ?"
+                            dangerOption="Delete"
+                            cancelOption="Cancel"
+                            dangerAction={(e) => handleRemove(e, item.id)}
+                            cancelAction={() => setOpenModal(null)}
+                            showModal={openModal === item.id} // STATE MEIN ID WAS PASSED
+                          ></Modal>
+
                           <button
-                            onClick={(e) => handleRemove(e, item.id)}
+                            // onClick={(e) => handleRemove(e, item.id)}
+                            onClick={(e) => {
+                              setOpenModal(item.id);
+                            }}
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"
                           >

@@ -25,10 +25,16 @@ import ProtectedAdmin from "./features/auth/components/ProtectedAdmin";
 import AdminHome from "./pages/AdminHome";
 import AdminProductDetailPage from "./pages/AdminProductDetailPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
-
 import AdminOrdersPage from "./pages/AdminOrdersPage";
-
 // Admins
+
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+
+const options = {
+  timeout: 5000,
+  position: positions.BOTTOM_LEFT,
+};
 
 const router = createBrowserRouter([
   {
@@ -155,8 +161,9 @@ function App() {
   return (
     <div className="App">
       {/* Link must be inside the Provider */}
-
-      <RouterProvider router={router} />
+      <Provider template={AlertTemplate} {...options}>
+        <RouterProvider router={router} />
+      </Provider>
     </div>
   );
 }
