@@ -2512,6 +2512,13 @@
       "password": "@User123",
       "addresses": [],
       "role": "user"
+    },
+    {
+      "id": "f726",
+      "email": "test@test.com",
+      "password": "Test123123",
+      "addresses": [],
+      "role": "user"
     }
   ],
   "cart": [
