@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  fetchAllProductsAsync,
+  // fetchAllProductsAsync,
   selectAllProducts,
   fetchProductsByFiltersAsync,
   selectTotalItems,
@@ -115,7 +115,7 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    const pagination = { _page: page, _per_page: ITEMS_PER_PAGE };
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE }; // _per_page to _limit
     dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
     // TODO : Server will filter deleted products
   }, [dispatch, filter, sort, page]);

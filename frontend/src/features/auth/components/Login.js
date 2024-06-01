@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { selectError, selectLoggedInUser } from "../authSlice";
 import { Link, Navigate } from "react-router-dom";
-import { checkUserAsync } from "../authSlice";
+import { loginUserAsync } from "../authSlice";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -38,7 +38,7 @@ const Login = () => {
             noValidate
             onSubmit={handleSubmit((data) => {
               dispatch(
-                checkUserAsync({ email: data.email, password: data.password })
+                loginUserAsync({ email: data.email, password: data.password })
               );
             })}
             className="space-y-6"
@@ -103,7 +103,7 @@ const Login = () => {
                   <p className="text-red-500">{errors.password.message}</p>
                 )}
               </div>
-              {error && <p className="text-red-500">{error.message}</p>}
+              {error && <p className="text-red-500">{error}</p>}
             </div>
 
             <div>
