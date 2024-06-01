@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
 
 mongoose
-  .connect(
-    "mongodb+srv://shirazwaseem321:4vnAcsghD3tYtncm@cluster0.epde33h.mongodb.net/EcommerceStore?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(process.env.MONGO_DB_URL)
   .then(() => {
     console.log("Connection successfully");
   })

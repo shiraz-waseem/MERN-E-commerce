@@ -84,7 +84,7 @@ const updateProduct = async (req, res) => {
 
   try {
     const product = await Product.findByIdAndUpdate(id, req.body, {
-      new: true,
+      new: true, // frontend py dependent ha is lia new
     });
     res.status(200).json(product);
   } catch (err) {

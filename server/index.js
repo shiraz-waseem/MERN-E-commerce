@@ -7,7 +7,6 @@ const categoriesRouter = require("./routes/Categories");
 const brandsRouter = require("./routes/Brands");
 
 const port = 8000;
-
 app.use(express.json()); // to parse req.body
 app.use(
   cors({

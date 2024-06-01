@@ -23,11 +23,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  StarIcon,
-} from "@heroicons/react/20/solid";
+import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import Pagination from "../../common/Pagination";
 import { Grid } from "react-loader-spinner";
@@ -49,6 +45,8 @@ const ProductList = () => {
   const products = useSelector(selectAllProducts);
   const totalItems = useSelector(selectTotalItems);
   console.log("Total items are: ", totalItems);
+
+  console.log("Products are: ", products);
 
   const brands = useSelector(selectBrands);
   const categories = useSelector(selectCategories);
