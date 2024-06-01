@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
-  console.log("User data is: ", user);
+  const userInfo = useSelector(selectUserInfo);
+  console.log("User data is: ", userInfo);
 
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1); // aik index bhi huskty tw initially -1 rkha (disabled)
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
@@ -23,13 +23,13 @@ const UserProfile = () => {
   const handleRemove = (e, index) => {
     // user ki info ki aik copy bana lety. Address ko alag sy le rhy as woh aik array mein nested ha
     // why we did this. Aik shallow copy hujati and ussy deep level tk laney ke lia aik baar spread krna para
-    const newUser = { ...user, addresses: [...user.addresses] };
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
     newUser.addresses.splice(index, 1); // 1 element remove
     dispatch(updateUserAsync(newUser));
   };
 
   const handleEdit = (addressUpdate, index) => {
-    const newUser = { ...user, addresses: [...user.addresses] }; // for shallow copy issue
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] }; // for shallow copy issue
     newUser.addresses.splice(index, 1, addressUpdate); // 1 value hatt jaye aur uski jagah addressUpdate ajaya
     dispatch(updateUserAsync(newUser));
     setSelectedEditIndex(-1); // edit hugya dispatch hugya form close krdo
@@ -37,7 +37,7 @@ const UserProfile = () => {
 
   const handleEditForm = (index) => {
     setSelectedEditIndex(index);
-    const address = user.addresses[index]; // address nikaal lia index ka wrna har jagah user.addresses[index].name likhna parta
+    const address = userInfo.addresses[index]; // address nikaal lia index ka wrna har jagah user.addresses[index].name likhna parta
     setValue("name", address.name);
     setValue("email", address.email);
     setValue("city", address.city);
@@ -49,7 +49,10 @@ const UserProfile = () => {
 
   const handleAdd = (address) => {
     // push krrhy tw akhir mein new address likh dia
-    const newUser = { ...user, addresses: [...user.addresses, address] };
+    const newUser = {
+      ...userInfo,
+      addresses: [...userInfo.addresses, address],
+    };
     dispatch(updateUserAsync(newUser));
     setShowAddAddressForm(false);
   };
@@ -59,16 +62,16 @@ const UserProfile = () => {
         {/* Name and Email */}
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
-            Name: {user.name ? user.name : "Guest User"}
+            Name: {userInfo.name ? userInfo.name : "Guest user"}
           </h1>
           <h3 className="text-xl my-5 font-bold tracking-tight text-red-900">
-            Email address: {user.email}
+            Email address: {userInfo.email}
           </h3>
 
           {/* role if admin */}
-          {user.role === "admin" && (
+          {userInfo.role === "admin" && (
             <h3 className="text-xl my-5 font-bold tracking-tight text-red-900">
-              Role : {user.role}
+              Role : {userInfo.role}
             </h3>
           )}
         </div>
@@ -285,7 +288,7 @@ const UserProfile = () => {
 
           {/* Your all addresses displaying with edit form*/}
           <p className="mt-0.5 text-md text-gray-500">Your Addresses :</p>
-          {user.addresses.map((address, index) => (
+          {userInfo.addresses.map((address, index) => (
             <div>
               {/* Edit form */}
               {selectedEditIndex === index ? (
