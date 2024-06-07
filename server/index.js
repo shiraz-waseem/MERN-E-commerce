@@ -9,10 +9,28 @@ const usersRouter = require("./routes/Users");
 const authRouter = require("./routes/Auth");
 const cartRouter = require("./routes/Cart");
 const ordersRouter = require("./routes/Order");
+const session = require("express-session");
+const passport = require("passport");
+const User = require("./models/User");
+const LocalStrategy = require("passport-local").Strategy;
+const crypto = require("crypto");
+const { isAuth, sanitizeUser } = require("./services/common");
 
 //
 const port = 8000;
 app.use(express.json()); // to parse req.body
+
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    // store: new SQLiteStore({ db: "sessions.db", dir: "./var/db" }),
+  })
+);
+
+app.use(passport.authenticate("session"));
+
 app.use(
   cors({
     exposedHeaders: ["X-Total-Count"],
@@ -29,9 +47,80 @@ app.use("/auth", authRouter);
 app.use("/cart", cartRouter);
 app.use("/orders", ordersRouter);
 
-app.get("/", (req, res) => {
-  res.json({ status: "success" });
+// app.get("/", (req, res) => {
+//   res.json({ status: "success" });
+// });
+
+// passport strategies
+
+passport.use(
+  new LocalStrategy(async function (username, password, done) {
+    // by default passport uses username. hamara mein email ha
+
+    try {
+      const user = await User.findOne({ email: username }).exec();
+      // console.log({ user });
+
+      // This is temporary we will use strong password auth
+      if (!user) {
+        done(null, false, { message: "invalid credentials" }); // for safety
+      }
+      // else if (user.password === password) {
+      //   done(null, user); // this line sends to serializable
+      // } else {
+      //   done(null, false, { message: "invalid credentials" });
+      // }
+
+      crypto.pbkdf2(
+        password,
+        user.salt, // user ka
+        310000,
+        32,
+        "sha256",
+        async function (err, hashedPassword) {
+          if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
+            return done(null, false, { message: "invalid credentials" });
+          }
+          done(null, sanitizeUser(user));
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      done(err);
+    }
+    // return done(null, user);
+  })
+);
+
+// this creates session variable req.user on being called from callbacks. Jab ap first time login krte
+passport.serializeUser(function (user, cb) {
+  console.log("serialize", user); // it returnd a to z everything about user so
+  process.nextTick(function () {
+    return cb(null, {
+      id: user.id,
+      // username: user.username,
+      role: user.role,
+    });
+  });
 });
+
+// Whenever you do authenticate request krte hu tw us mein ye wapis sy session variable us user ko populate krne mein kaam
+passport.deserializeUser(function (user, cb) {
+  console.log("de-serialize", user); // returns id and role only
+  process.nextTick(function () {
+    return cb(null, user);
+  });
+});
+
+// Iske baad kisi route ko use krne ke lia you have to be login
+// function isAuth(req, res, done) {
+//   if (req.user) {
+//     // agar user ha on server
+//     done();
+//   } else {
+//     res.send(401);
+//   }
+// }
 
 app.listen(port, () => {
   console.log(`listening to port no ${port}`);
