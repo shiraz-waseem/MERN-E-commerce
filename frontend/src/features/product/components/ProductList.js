@@ -104,7 +104,7 @@ const ProductList = () => {
   };
 
   const handleSort = (e, option) => {
-    const sort = { _sort: option.sort }; //sorting on behalf of regular price not on discount price
+    const sort = { _sort: option.sort, _order: option.order }; //sorting on behalf of regular price not on discount price
     console.log({ sort }); // sab mil rha in object form
     setSort(sort);
   };

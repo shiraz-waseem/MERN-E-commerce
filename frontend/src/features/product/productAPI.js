@@ -45,6 +45,8 @@ export function updateProduct(update) {
   });
 }
 
+// admin thing
+
 export function fetchProductsByFilters(filter, sort, pagination, admin) {
   // filter = {"category":["smartphone","laptops"]}
   // sort = {_sort:"price",_order="desc"}
@@ -82,6 +84,7 @@ export function fetchProductsByFilters(filter, sort, pagination, admin) {
     queryString += `${key}=${pagination[key]}&`;
   }
 
+  // backend ko bata dega admin ha taky deleted wala dhek sky
   if (admin) {
     queryString += `admin=true`;
   }

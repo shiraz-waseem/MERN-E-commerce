@@ -66,7 +66,7 @@ const AdminOrders = () => {
   // Product page sy
   // _per_page ana thaa
   useEffect(() => {
-    const pagination = { _page: page, _per_page: ITEMS_PER_PAGE };
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
     dispatch(fetchAllOrdersAsync({ pagination, sort }));
   }, [dispatch, page, sort]);
 
@@ -126,12 +126,12 @@ const AdminOrders = () => {
                             <div className="mr-2">
                               <img
                                 className="w-6 h-6 rounded-full"
-                                src={item.thumbnail}
+                                src={item.product.thumbnail}
                               />
                             </div>
                             <span>
                               {" "}
-                              {item.title} - #{item.quantity} - $
+                              {item.product.title} - #{item.quantity} - $
                               {discountedPrice(item)}
                             </span>
                           </div>

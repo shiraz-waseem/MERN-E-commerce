@@ -14,8 +14,16 @@ const createProduct = async (req, res) => {
 // http://localhost:8000/products?_page=1&_limit=2
 // PostMan Query Params mein value add hurhy
 const fetchAllProducts = async (req, res) => {
-  let query = Product.find({ deleted: { $ne: true } }); // deleted not equal to true
-  let totalProductsQuery = Product.find({ deleted: { $ne: true } });
+  // let query = Product.find({ deleted: { $ne: true } }); // deleted not equal to true
+  // let totalProductsQuery = Product.find({ deleted: { $ne: true } });
+
+  let condition = {};
+  if (!req.query.admin) {
+    condition.deleted = { $ne: true };
+  }
+
+  let query = Product.find(condition);
+  let totalProductsQuery = Product.find(condition);
 
   // Category time
   // Multiple category bhi support. Last category we click wohi arhy thy when we did in frontend not here aisa

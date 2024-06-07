@@ -30,11 +30,14 @@ export function fetchAllOrders(sort, pagination) {
     // const totalOrders = await response.headers.get("X-Total-Count");
     // resolve({ data: { orders: data, totalOrders: +totalOrders } });
 
-    const orders = data.data;
-    console.log("Data.DATA is: ", data);
-    const totalOrders = data.items;
-    console.log("totalOrders is: ", data);
-    resolve({ data: { orders: orders, totalOrders: totalOrders } });
+    // const orders = data.data;
+    // console.log("Data.DATA is: ", data);
+    // const totalOrders = data.items;
+    // console.log("totalOrders is: ", data);
+    // resolve({ data: { orders: orders, totalOrders: totalOrders } });
+
+    const totalOrders = await response.headers.get("X-Total-Count");
+    resolve({ data: { orders: data, totalOrders: +totalOrders } });
   });
 }
 

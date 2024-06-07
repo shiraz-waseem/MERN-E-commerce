@@ -5,12 +5,14 @@ const {
   fetchOrdersByUser,
   deleteOrder,
   updateOrder,
+  fetchAllOrders,
 } = require("../controllers/Order");
 
 router
   .post("/", createOrder)
-  .get("/", fetchOrdersByUser)
+  .get("/user/:userId", fetchOrdersByUser)
   .delete("/:id", deleteOrder)
-  .patch("/:id", updateOrder);
+  .patch("/:id", updateOrder)
+  .get("/", fetchAllOrders);
 
 module.exports = router;

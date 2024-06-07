@@ -105,7 +105,7 @@ const AdminProductList = () => {
   };
 
   const handleSort = (e, option) => {
-    const sort = { _sort: option.sort }; //sorting on behalf of regular price not on discount price
+    const sort = { _sort: option.sort, _order: option.order }; //sorting on behalf of regular price not on discount price
     console.log({ sort }); // sab mil rha in object form
     setSort(sort);
   };
@@ -116,8 +116,11 @@ const AdminProductList = () => {
   };
 
   useEffect(() => {
-    const pagination = { _page: page, _per_page: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
+    // dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
+    dispatch(
+      fetchProductsByFiltersAsync({ filter, sort, pagination, admin: true })
+    );
   }, [dispatch, filter, sort, page]);
 
   // useEffect(() => {
