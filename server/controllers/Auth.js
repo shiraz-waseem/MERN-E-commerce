@@ -1,15 +1,13 @@
 const User = require("../models/User");
 const crypto = require("crypto");
 const { sanitizeUser } = require("../services/common");
+const jwt = require("jsonwebtoken");
+
+const SECRET_KEY = "SECRET_KEY";
 
 const createUser = async (req, res) => {
   const user = new User(req.body);
   try {
-    // const doc = await user.save();
-    // res.status(201).json({ id: doc.id, role: doc.role });
-    // res.status(201).json(doc);
-    // Hash password
-
     const salt = crypto.randomBytes(16);
     crypto.pbkdf2(
       // rounds, strength, algorithm
@@ -28,7 +26,9 @@ const createUser = async (req, res) => {
           if (err) {
             res.status(400).json(err);
           } else {
-            res.status(201).json(sanitizeUser(doc));
+            const token = jwt.sign(sanitizeUser(doc), SECRET_KEY);
+            // res.status(201).json(sanitizeUser(doc));
+            res.status(201).json(token);
           }
         });
       }

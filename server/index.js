@@ -15,6 +15,15 @@ const User = require("./models/User");
 const LocalStrategy = require("passport-local").Strategy;
 const crypto = require("crypto");
 const { isAuth, sanitizeUser } = require("./services/common");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const jwt = require("jsonwebtoken");
+
+const SECRET_KEY = "SECRET_KEY"; // token created
+// JWT options
+const opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = SECRET_KEY; // TODO: should not be in code we will put in env;
 
 //
 const port = 8000;
@@ -39,13 +48,14 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 
 //APIS
-app.use("/products", productsRouter);
-app.use("/categories", categoriesRouter);
-app.use("/brands", brandsRouter);
-app.use("/users", usersRouter);
+app.use("/products", isAuth(), productsRouter);
+// we can also use JWT token for client-only auth
+app.use("/categories", isAuth(), categoriesRouter);
+app.use("/brands", isAuth(), brandsRouter);
+app.use("/users", isAuth(), usersRouter);
 app.use("/auth", authRouter);
-app.use("/cart", cartRouter);
-app.use("/orders", ordersRouter);
+app.use("/cart", isAuth(), cartRouter);
+app.use("/orders", isAuth(), ordersRouter);
 
 // app.get("/", (req, res) => {
 //   res.json({ status: "success" });
@@ -54,7 +64,7 @@ app.use("/orders", ordersRouter);
 // passport strategies
 
 passport.use(
-  new LocalStrategy(async function (username, password, done) {
+  new LocalStrategy("local", async function (username, password, done) {
     // by default passport uses username. hamara mein email ha
 
     try {
@@ -81,7 +91,9 @@ passport.use(
           if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
             return done(null, false, { message: "invalid credentials" });
           }
-          done(null, sanitizeUser(user));
+          // done(null, sanitizeUser(user));
+          const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
+          done(null, token); // this lines sends to serializer
         }
       );
     } catch (err) {
@@ -89,6 +101,23 @@ passport.use(
       done(err);
     }
     // return done(null, user);
+  })
+);
+
+passport.use(
+  "jwt",
+  new JwtStrategy(opts, async function (jwt_payload, done) {
+    console.log({ jwt_payload });
+    try {
+      const user = await User.findOne({ id: jwt_payload.sub });
+      if (user) {
+        return done(null, sanitizeUser(user)); // this calls serializer
+      } else {
+        return done(null, false);
+      }
+    } catch (err) {
+      return done(err, false);
+    }
   })
 );
 
