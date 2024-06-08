@@ -14,20 +14,25 @@ const passport = require("passport");
 const User = require("./models/User");
 const LocalStrategy = require("passport-local").Strategy;
 const crypto = require("crypto");
-const { isAuth, sanitizeUser } = require("./services/common");
+const { isAuth, sanitizeUser, cookieExtractor } = require("./services/common");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
+//
 const SECRET_KEY = "SECRET_KEY"; // token created
 // JWT options
 const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = SECRET_KEY; // TODO: should not be in code we will put in env;
 
 //
 const port = 8000;
 app.use(express.json()); // to parse req.body
+app.use(express.static("build"));
+app.use(cookieParser()); // client sy wali cookies easily prh skta
 
 app.use(
   session({
@@ -64,22 +69,16 @@ app.use("/orders", isAuth(), ordersRouter);
 // passport strategies
 
 passport.use(
-  new LocalStrategy("local", async function (username, password, done) {
-    // by default passport uses username. hamara mein email ha
-
+  new LocalStrategy({ usernameField: "email" }, async function (
+    email,
+    password,
+    done
+  ) {
     try {
-      const user = await User.findOne({ email: username }).exec();
-      // console.log({ user });
-
-      // This is temporary we will use strong password auth
+      const user = await User.findOne({ email: email }).exec();
       if (!user) {
         done(null, false, { message: "invalid credentials" }); // for safety
       }
-      // else if (user.password === password) {
-      //   done(null, user); // this line sends to serializable
-      // } else {
-      //   done(null, false, { message: "invalid credentials" });
-      // }
 
       crypto.pbkdf2(
         password,
@@ -93,7 +92,7 @@ passport.use(
           }
           // done(null, sanitizeUser(user));
           const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
-          done(null, token); // this lines sends to serializer
+          done(null, { token }); // this lines sends to serializer
         }
       );
     } catch (err) {
@@ -109,7 +108,7 @@ passport.use(
   new JwtStrategy(opts, async function (jwt_payload, done) {
     console.log({ jwt_payload });
     try {
-      const user = await User.findOne({ id: jwt_payload.sub });
+      const user = await User.findById(jwt_payload.id);
       if (user) {
         return done(null, sanitizeUser(user)); // this calls serializer
       } else {
@@ -127,7 +126,6 @@ passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
     return cb(null, {
       id: user.id,
-      // username: user.username,
       role: user.role,
     });
   });

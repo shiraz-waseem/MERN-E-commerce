@@ -8,7 +8,6 @@ import {
 } from "../../product/productSlice";
 import { useParams } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartSlice";
-import { selectLoggedInUser } from "../../auth/authSlice";
 import { discountedPrice } from "../../../app/constants";
 
 // TODO: In server data we will add colors, sizes , highlights. to each product
@@ -48,7 +47,6 @@ const AdminProductDetail = () => {
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
-  const user = useSelector(selectLoggedInUser);
 
   console.log(params.id);
 
@@ -65,7 +63,7 @@ const AdminProductDetail = () => {
     // mera chal rha tha
     // dispatch(addToCartAsync({ ...product, quantity: 1, user: user.id }));
 
-    const newItem = { ...product, quantity: 1, user: user.id };
+    const newItem = { ...product, quantity: 1 };
     // console.log(newItem); // you can see userId but string mein hai so hamara lia tw chal rha
     delete newItem["id"];
     // console.log("After deleting: ", newItem);

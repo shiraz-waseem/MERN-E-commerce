@@ -1,17 +1,17 @@
-export function fetchLoggedInUserOrders(userId) {
+export function fetchLoggedInUserOrders() {
   return new Promise(async (resolve) => {
     const response = await fetch(
       // "http://localhost:8000/orders/?user=" + userId
-      "http://localhost:8000/orders/?user" + userId // Backend mein API bana li
+      "http://localhost:8000/orders/own/" // Backend mein API bana li
     );
     const data = await response.json();
     resolve({ data });
   });
 }
 
-export function fetchLoggedInUser(userId) {
+export function fetchLoggedInUser() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/users/" + userId);
+    const response = await fetch("http://localhost:8000/users/own");
     const data = await response.json();
     resolve({ data });
   });

@@ -43,7 +43,7 @@ export function loginUser(loginInfo) {
         const data = await response.json();
         resolve({ data }); // data ko resolve mein bhej degy
       } else {
-        const error = await response.text();
+        const error = await response.text(); // error text mein arha as Unauthorized
         reject(error);
       }
     } catch (error) {

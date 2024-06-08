@@ -9,14 +9,13 @@ import { resetOrder } from "../features/order/orderSlice";
 const OrderSuccessPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const user = useSelector(selectLoggedInUser);
 
   useEffect(() => {
     // reset cart
-    dispatch(resetCartAsync(user.id));
+    dispatch(resetCartAsync());
     // reset currentOrder
     dispatch(resetOrder());
-  }, [dispatch, user]);
+  }, [dispatch]);
   return (
     <>
       {!params.id && <Navigate to="/" replace={true}></Navigate>}

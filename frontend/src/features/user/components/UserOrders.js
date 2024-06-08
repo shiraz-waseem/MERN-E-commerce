@@ -3,18 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   fetchLoggedInUserOrderAsync,
   selectUserOrders,
+  selectUserInfoStatus,
   selectUserInfo,
 } from "../userSlice";
 import { discountedPrice } from "../../../app/constants";
+import { Grid } from "react-loader-spinner";
 
 const UserOrders = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
+  const status = useSelector(selectUserInfoStatus);
 
   useEffect(() => {
-    dispatch(fetchLoggedInUserOrderAsync(userInfo.id)); // now upper wala selector mein items agaye jis id ka daala
-  }, [dispatch, userInfo]);
+    dispatch(fetchLoggedInUserOrderAsync()); // now upper wala selector mein items agaye jis id ka daala
+  }, [dispatch]);
 
   return (
     <div>
@@ -126,6 +129,18 @@ const UserOrders = () => {
             </div>
           </div>
         ))}
+      {status === "loading" ? (
+        <Grid
+          height="80"
+          width="80"
+          color="rgb(79, 70, 229) "
+          ariaLabel="grid-loading"
+          radius="12.5"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : null}
     </div>
   );
 };

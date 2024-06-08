@@ -9,7 +9,6 @@ import {
 } from "../productSlice";
 import { useParams } from "react-router-dom";
 import { addToCartAsync, selectItems } from "../../cart/cartSlice";
-import { selectLoggedInUser } from "../../auth/authSlice";
 import { discountedPrice } from "../../../app/constants";
 import { useAlert } from "react-alert";
 import { Grid } from "react-loader-spinner";
@@ -49,7 +48,6 @@ const ProductDetail = () => {
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
-  const user = useSelector(selectLoggedInUser);
   const items = useSelector(selectItems);
 
   const alert = useAlert();
@@ -71,7 +69,6 @@ const ProductDetail = () => {
         // schema mein yehi 3 cheze chae
         product: product.id, // always generate a id. If you want "id" conflict ajaye ga as id is a reserve keyword it works as primary key and now upper checked
         quantity: 1,
-        user: user.id,
       };
       // delete newItem["id"];
       dispatch(addToCartAsync(newItem));

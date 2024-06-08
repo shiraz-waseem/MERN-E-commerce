@@ -12,10 +12,10 @@ export function addToCart(item) {
 }
 
 // Will display in cart page
-export function fetchItemsByUserId(userId) {
+export function fetchItemsByUserId() {
   return new Promise(async (resolve) => {
     //TODO: we will not hard-code server URL here
-    const response = await fetch("http://localhost:8000/cart?user=" + userId);
+    const response = await fetch("http://localhost:8000/cart");
     const data = await response.json();
     resolve({ data });
   });
@@ -47,12 +47,12 @@ export function deleteItemFromCart(itemId) {
   });
 }
 
-export function resetCart(userId) {
+export function resetCart() {
   // get all items of user's cart - and then delete each
 
   // we have to remove all the items
   return new Promise(async (resolve) => {
-    const response = await fetchItemsByUserId(userId); // json mein convert krchuka already since method mein defined
+    const response = await fetchItemsByUserId(); // json mein convert krchuka already since method mein defined
     const items = response.data;
     for (let item of items) {
       // jitna items us mein sy

@@ -4,10 +4,11 @@ const fetchOrdersByUser = async (req, res) => {
   // extracts the user parameter from the query string of the incoming request. For example,
   //   if the request URL is /order?user=123, user will be 123.
 
-  const { userId } = req.query;
+  // const { userId } = req.query;
+  const { id } = req.user;
 
   try {
-    const orders = await Order.find({ user: userId });
+    const orders = await Order.find({ user: id });
     res.status(200).json(orders);
   } catch (err) {
     res.status(400).json(err);
