@@ -6,6 +6,7 @@ import {
   deleteItemFromCartAsync,
   updateCartAsync,
   selectCartStatus,
+  selectCartLoaded,
 } from "./cartSlice";
 import { discountedPrice } from "../../app/constants";
 import { Grid } from "react-loader-spinner";
@@ -16,6 +17,8 @@ const Cart = () => {
   const items = useSelector(selectItems);
   const status = useSelector(selectCartStatus);
   const [openModal, setOpenModal] = useState(null);
+  const cartLoaded = useSelector(selectCartLoaded);
+
   // Total Quantity and Amount
   // First paramameter is accumulator
   const totalAmount = items.reduce(
@@ -36,7 +39,9 @@ const Cart = () => {
 
   return (
     <>
-      {!items.length && <Navigate to="/" replace={true}></Navigate>}
+      {!items.length && cartLoaded && (
+        <Navigate to="/" replace={true}></Navigate>
+      )}
 
       <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">

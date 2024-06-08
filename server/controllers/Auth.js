@@ -35,7 +35,7 @@ const createUser = async (req, res) => {
                 httpOnly: true,
               })
               .status(201)
-              .json(token);
+              .json({ id: doc.id, role: doc.role });
           }
         });
       }
@@ -56,12 +56,18 @@ const loginUser = async (req, res) => {
     .json(req.user.token);
 };
 
-const checkUser = async (req, res) => {
-  res.json({ status: "success", user: req.user });
+const checkAuth = async (req, res) => {
+  // res.json({ status: "success", user: req.user });
+
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.sendStatus(401);
+  }
 };
 
 module.exports = {
   createUser,
   loginUser,
-  checkUser,
+  checkAuth,
 };
