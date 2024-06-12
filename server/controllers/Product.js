@@ -11,7 +11,7 @@ const createProduct = async (req, res) => {
   }
 };
 
-// http://localhost:8000/products?_page=1&_limit=2
+// /products?_page=1&_limit=2
 // PostMan Query Params mein value add hurhy
 const fetchAllProducts = async (req, res) => {
   // let query = Product.find({ deleted: { $ne: true } }); // deleted not equal to true

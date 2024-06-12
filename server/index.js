@@ -20,17 +20,11 @@ const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 //
-const SECRET_KEY = process.env.JWT_SECRET_KEY; // token created
-// JWT options
-const opts = {};
-// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.jwtFromRequest = cookieExtractor;
-opts.secretOrKey = SECRET_KEY; // TODO: should not be in code we will put in env;
 
 // TODO: we will capture actual order after deploying out server live on public URL
-
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 const endpointSecret = process.env.WEBHOOK_ENDPOINT;
 
@@ -66,11 +60,18 @@ app.post(
 );
 
 //
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
+// JWT options
+const opts = {};
+opts.jwtFromRequest = cookieExtractor;
+opts.secretOrKey = SECRET_KEY;
+
 const port = process.env.PORT;
 app.use(express.json()); // to parse req.body
-app.use(express.static("build"));
-app.use(cookieParser()); // client sy wali cookies easily prh skta
-// app.use(express.raw({ type: "application/json" }));
+// app.use(express.static("build"));
+app.use(express.static(path.resolve(__dirname, "build")));
+// console.log(path.resolve(__dirname, "build")); E:\Another Ecommerce\ecommerce\MERN-E-commerce\server\build
+app.use(cookieParser());
 
 app.use(
   session({
