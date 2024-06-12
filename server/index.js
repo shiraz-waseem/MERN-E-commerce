@@ -21,6 +21,7 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const { Order } = require("./models/Order");
 
 //
 
@@ -31,7 +32,7 @@ const endpointSecret = process.env.WEBHOOK_ENDPOINT;
 app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
-  (request, response) => {
+  async (request, response) => {
     const sig = request.headers["stripe-signature"];
 
     let event;
@@ -48,6 +49,14 @@ app.post(
       case "payment_intent.succeeded":
         const paymentIntentSucceeded = event.data.object;
         // Then define and call a function to handle the event payment_intent.succeeded
+
+        const order = await Order.findById(
+          paymentIntentSucceeded.metadata.orderId
+        );
+        order.paymentStatus = "received";
+        await order.save();
+        console.log("Payment successful");
+
         break;
       // ... handle other event types
       default:
@@ -100,6 +109,7 @@ app.use("/users", isAuth(), usersRouter);
 app.use("/auth", authRouter);
 app.use("/cart", isAuth(), cartRouter);
 app.use("/orders", isAuth(), ordersRouter);
+app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
 
 // app.get("/", (req, res) => {
 //   res.json({ status: "success" });
@@ -191,7 +201,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 app.post("/create-payment-intent", async (req, res) => {
   // const { items } = req.body;
-  const { totalAmount } = req.body;
+  const { totalAmount, orderId } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
@@ -201,6 +211,9 @@ app.post("/create-payment-intent", async (req, res) => {
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
     automatic_payment_methods: {
       enabled: true,
+    },
+    metadata: {
+      orderId,
     },
   });
 

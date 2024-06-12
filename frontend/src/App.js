@@ -97,7 +97,7 @@ const router = createBrowserRouter([
     element: <OrderSuccessPage></OrderSuccessPage>,
   },
   {
-    path: "/orders",
+    path: "/my-orders",
     element: <UserOrdersPage></UserOrdersPage>,
     // we will add Page later right now using component directly.
   },
