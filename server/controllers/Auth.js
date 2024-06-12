@@ -26,7 +26,10 @@ const createUser = async (req, res) => {
           if (err) {
             res.status(400).json(err);
           } else {
-            const token = jwt.sign(sanitizeUser(doc), SECRET_KEY);
+            const token = jwt.sign(
+              sanitizeUser(doc),
+              process.env.JWT_SECRET_KEY
+            );
             // res.status(201).json(sanitizeUser(doc));
             // res.status(201).json(token);
             res

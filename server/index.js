@@ -70,7 +70,7 @@ const port = process.env.PORT;
 app.use(express.json()); // to parse req.body
 app.use(express.static("build"));
 app.use(cookieParser()); // client sy wali cookies easily prh skta
-app.use(express.raw({ type: "application/json" }));
+// app.use(express.raw({ type: "application/json" }));
 
 app.use(
   session({
@@ -130,7 +130,7 @@ passport.use(
           }
           // done(null, sanitizeUser(user));
           const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
-          done(null, { id: user.id, role: user.role }); // this lines sends to serializer
+          done(null, { id: user.id, role: user.role, token }); // this lines sends to serializer
         }
       );
     } catch (err) {
