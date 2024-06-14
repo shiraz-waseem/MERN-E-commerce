@@ -22,8 +22,19 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const { Order } = require("./models/Order");
+// const nodemailer = require("nodemailer");
 
-//
+// //
+
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.com",
+//   port: 587,
+//   secure: false, // Use `true` for port 465, `false` for all other ports
+//   auth: {
+//     user: "shirazwaseemwork@gmail.com",
+//     pass: process.env.MAIL_PASSWORD,
+//   },
+// });
 
 // TODO: we will capture actual order after deploying out server live on public URL
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
@@ -113,6 +124,19 @@ app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
 
 // app.get("/", (req, res) => {
 //   res.json({ status: "success" });
+// });
+
+// app.post("/mail", async (req, res) => {
+//   const { to } = req.body;
+//   const info = await transporter.sendMail({
+//     from: "E-commerce Store <shirazwaseem@gmail.com>", // sender address
+//     to: to, // list of receivers
+//     subject: "Hello ✔", // Subject line
+//     text: "Hello world?", // plain text body
+//     html: "<b>Hello world?</b>", // html body
+//   });
+
+//   res.json(info);
 // });
 
 // passport strategies
