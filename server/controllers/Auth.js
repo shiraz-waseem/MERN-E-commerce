@@ -130,10 +130,20 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  res
+    .cookie("jwt", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .sendStatus(200);
+};
+
 module.exports = {
   createUser,
   loginUser,
   checkAuth,
   resetPasswordRequest,
   resetPassword,
+  logout,
 };
