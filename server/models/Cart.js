@@ -8,6 +8,8 @@ const cartSchema = new mongoose.Schema({
     required: true,
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  size: { type: mongoose.Schema.Types.Mixed },
+  color: { type: mongoose.Schema.Types.Mixed },
 });
 
 const virtual = cartSchema.virtual("id");

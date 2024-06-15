@@ -24,6 +24,9 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   thumbnail: { type: String, required: true },
   images: { type: [String], required: true }, // array of string
+  colors: { type: [mongoose.Schema.Types.Mixed] },
+  sizes: { type: [mongoose.Schema.Types.Mixed] },
+  highlights: { type: [String] },
   deleted: { type: Boolean, default: false },
 });
 

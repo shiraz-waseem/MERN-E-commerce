@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
-  items: { type: [mongoose.Schema.Types.Mixed], required: true },
-  totalAmount: { type: Number },
-  totalItems: { type: Number },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  //TODO:  we can add enum types, enum - limit, ham sirf cash card rkh skty later krlein gy
-  paymentMethod: { type: String, required: true },
-  paymentStatus: { type: String, default: "pending" },
-  status: { type: String, default: "pending" },
-  selectedAddress: { type: mongoose.Schema.Types.Mixed, required: true },
-});
+const orderSchema = new mongoose.Schema(
+  {
+    items: { type: [mongoose.Schema.Types.Mixed], required: true },
+    totalAmount: { type: Number },
+    totalItems: { type: Number },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    //TODO:  we can add enum types, enum - limit, ham sirf cash card rkh skty later krlein gy
+    paymentMethod: { type: String, required: true },
+    paymentStatus: { type: String, default: "pending" },
+    status: { type: String, default: "pending" },
+    selectedAddress: { type: mongoose.Schema.Types.Mixed, required: true },
+  },
+  { timestamps: true }
+);
 
 const virtual = orderSchema.virtual("id");
 virtual.get(function () {

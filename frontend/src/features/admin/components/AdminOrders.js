@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   PencilIcon,
   EyeIcon,
-  ArrowUpCircleIcon,
-  ArrowDownCircleIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
 } from "@heroicons/react/24/outline";
 import Pagination from "../../common/Pagination";
 import {
@@ -50,10 +50,17 @@ const AdminOrders = () => {
     setPage(page);
   };
 
-  const handleSort = (value) => {
-    console.log("Value of sort is: ", sort); // shru mein empty tw woh not equal arrow up le ata then arrow down as braber hujati phir
-    setSort(value);
+  // const handleSort = (value) => {
+  //   console.log("Value of sort is: ", sort); // shru mein empty tw woh not equal arrow up le ata then arrow down as braber hujati phir
+  //   setSort(value);
+  // };
+
+  const handleSort = (sortOption) => {
+    const sort = { _sort: sortOption.sort, _order: sortOption.order };
+    console.log({ sort });
+    setSort(sort);
   };
+
   const chooseColor = (status) => {
     switch (status) {
       case "pending":
@@ -87,50 +94,97 @@ const AdminOrders = () => {
             <table className="w-full table-auto">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                  <th className="py-3 px-6 text-left">Order# </th>
-                  <th className="py-3 px-6 text-left">Items</th>
-                  <th className="py-3 px-6 text-center md:table-cell">
-                    Total Amount{" "}
-                    {
-                      <>
-                        {sort?._sort !== "totalAmount" ? (
-                          <ArrowUpCircleIcon
-                            className="w-6 h-6 ml-1 inline cursor-pointer"
-                            onClick={(e) =>
-                              handleSort({ _sort: "totalAmount" })
-                            }
-                          />
-                        ) : (
-                          <ArrowDownCircleIcon
-                            className="w-6 h-6 ml-1 inline  cursor-pointer"
-                            onClick={(e) =>
-                              handleSort({ _sort: "-totalAmount" })
-                            }
-                          />
-                        )}
-                      </>
-                    }{" "}
+                  {/* <th className="py-3 px-2 text-left">Order# </th> */}
+                  <th
+                    className="py-3 px-2 text-left cursor-pointer"
+                    onClick={(e) =>
+                      handleSort({
+                        sort: "id",
+                        order: sort?._order === "asc" ? "desc" : "asc",
+                      })
+                    }
+                  >
+                    Order#{" "}
+                    {sort._sort === "id" &&
+                      (sort._order === "asc" ? (
+                        <ArrowUpIcon className="w-4 h-4 inline"></ArrowUpIcon>
+                      ) : (
+                        <ArrowDownIcon className="w-4 h-4 inline"></ArrowDownIcon>
+                      ))}
                   </th>
-                  <th className="py-3 px-6 text-center">Shipping Address</th>
-                  <th className="py-3 px-6 text-center">Order Status</th>
-                  <th className="py-3 px-6 text-center">Payment Method</th>
-                  <th className="py-3 px-6 text-center">Payment Status</th>
-                  <th className="py-3 px-6 text-center">Actions</th>
+                  <th className="py-3 px-0 text-left">Items</th>
+                  <th
+                    className="py-3 px-0 text-center md:table-cell"
+                    onClick={(e) =>
+                      handleSort({
+                        sort: "totalAmount",
+                        order: sort?._order === "asc" ? "desc" : "asc",
+                      })
+                    }
+                  >
+                    Total Amount{" "}
+                    {sort._sort === "totalAmount" &&
+                      (sort._order === "asc" ? (
+                        <ArrowUpIcon className="w-4 h-4 inline"></ArrowUpIcon>
+                      ) : (
+                        <ArrowDownIcon className="w-4 h-4 inline"></ArrowDownIcon>
+                      ))}
+                  </th>
+                  <th className="py-3 px-0 text-center">Shipping Address</th>
+                  <th className="py-3 px-0 text-center">Order Status</th>
+                  <th className="py-3 px-0 text-center">Payment Method</th>
+                  <th className="py-3 px-0 text-center">Payment Status</th>
+                  <th
+                    className="py-3 px-0 text-center"
+                    onClick={(e) =>
+                      handleSort({
+                        sort: "createdAt",
+                        order: sort?._order === "asc" ? "desc" : "asc",
+                      })
+                    }
+                  >
+                    Created At
+                    {sort._sort === "createdAt" &&
+                      (sort._order === "asc" ? (
+                        <ArrowUpIcon className="w-4 h-4 inline"></ArrowUpIcon>
+                      ) : (
+                        <ArrowDownIcon className="w-4 h-4 inline"></ArrowDownIcon>
+                      ))}
+                  </th>
+                  <th
+                    className="py-3 px-0 text-center"
+                    onClick={(e) =>
+                      handleSort({
+                        sort: "updatedAt",
+                        order: sort?._order === "asc" ? "desc" : "asc",
+                      })
+                    }
+                  >
+                    Last Updated
+                    {sort._sort === "updatedAt" &&
+                      (sort._order === "asc" ? (
+                        <ArrowUpIcon className="w-4 h-4 inline"></ArrowUpIcon>
+                      ) : (
+                        <ArrowDownIcon className="w-4 h-4 inline"></ArrowDownIcon>
+                      ))}
+                  </th>
+                  <th className="py-3 px-0 text-center">Actions</th>
                 </tr>
               </thead>
+              {/* Data displaying */}
               <tbody className="text-gray-600 text-sm font-light">
                 {orders &&
                   orders.map((order) => (
                     <tr className="border-b border-gray-200 hover:bg-gray-100">
                       {/* Order Id */}
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
+                      <td className="py-3 px-0 text-left whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="mr-2"></div>
                           <span className="font-medium">{order.id}</span>
                         </div>
                       </td>
                       {/* Order items */}
-                      <td className="py-3 px-6 text-left">
+                      <td className="py-3 px-0 text-left">
                         {order.items.map((item) => (
                           <div className="flex items-center">
                             <div className="mr-2">
@@ -148,13 +202,13 @@ const AdminOrders = () => {
                         ))}
                       </td>
                       {/* Total Amount */}
-                      <td className="py-3 px-6 text-left">
+                      <td className="py-3 px-0 text-left">
                         <div className="flex items-center justify-center">
                           {/* {discountedPrice} */}${order.totalAmount}
                         </div>
                       </td>
                       {/* Address */}
-                      <td className="py-3 px-6 text-center">
+                      <td className="py-3 px-0 text-center">
                         <div className="">
                           <div>
                             <strong>{order.selectedAddress.name}</strong>,
@@ -168,7 +222,7 @@ const AdminOrders = () => {
                       </td>
 
                       {/* Status */}
-                      <td className="py-3 px-6 text-center">
+                      <td className="py-3 px-0 text-center">
                         {order.id === editableOrderId ? (
                           <select onChange={(e) => handleOrderStatus(e, order)}>
                             <option value="pending">Pending</option>
@@ -188,13 +242,13 @@ const AdminOrders = () => {
                       </td>
 
                       {/* Payment Method */}
-                      <td className="py-3 px-6 text-center">
+                      <td className="py-3 px-0 text-center">
                         <div className="flex items-center justify-center">
                           {order.paymentMethod}
                         </div>
                       </td>
                       {/* Payment Status */}
-                      <td className="py-3 px-6 text-center">
+                      <td className="py-3 px-0 text-center">
                         {order.id === editableOrderId ? (
                           <select
                             onChange={(e) => handleOrderPaymentStatus(e, order)}
@@ -213,8 +267,25 @@ const AdminOrders = () => {
                         )}
                       </td>
 
+                      {/* Order and Updated Time */}
+                      <td className="py-3 px-0 text-center">
+                        <div className="flex items-center justify-center">
+                          {order.createdAt
+                            ? new Date(order.createdAt).toLocaleString() // readable version acc to your country both time and date
+                            : "-"}
+                        </div>
+                      </td>
+
+                      <td className="py-3 px-0 text-center">
+                        <div className="flex items-center justify-center">
+                          {order.updatedAt
+                            ? new Date(order.updatedAt).toLocaleString()
+                            : "-"}
+                        </div>
+                      </td>
+
                       {/* Actions */}
-                      <td className="py-3 px-6 text-center">
+                      <td className="py-3 px-0 text-center">
                         <div className="flex item-center justify-center">
                           <div className="w-6 mr-4 transform hover:text-purple-500 hover:scale-110">
                             <EyeIcon
