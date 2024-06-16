@@ -29,18 +29,20 @@ const fetchAllProducts = async (req, res) => {
   // Multiple category bhi support. Last category we click wohi arhy thy when we did in frontend not here aisa
   if (req.query.category) {
     // agar category aye gy in query mtlb filter krwana cha rhy
-    query = query.find({ category: req.query.category }); // find laga di of mongodb
+    query = query.find({ category: { $in: req.query.category.split(",") } }); // find laga di of mongodb
 
     // Total count after category
     totalProductsQuery = totalProductsQuery.find({
-      category: req.query.category,
+      category: { $in: req.query.category.split(",") },
     });
   }
 
   // same for brand
   if (req.query.brand) {
-    query = query.find({ brand: req.query.brand });
-    totalProductsQuery = totalProductsQuery.find({ brand: req.query.brand });
+    query = query.find({ brand: { $in: req.query.brand.split(",") } });
+    totalProductsQuery = totalProductsQuery.find({
+      brand: { $in: req.query.brand.split(",") },
+    });
   }
 
   // agar _sort ha and order saath hi huty asc ya desc then sorting ki request fire huwi ha

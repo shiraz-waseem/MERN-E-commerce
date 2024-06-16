@@ -1,5 +1,7 @@
 const Order = require("../models/Order");
 const User = require("../models/User");
+const Product = require("../models/Product");
+
 const { sendMail, invoiceTemplate } = require("../services/common");
 
 const fetchOrdersByUser = async (req, res) => {
@@ -19,6 +21,16 @@ const fetchOrdersByUser = async (req, res) => {
 
 const createOrder = async (req, res) => {
   const order = new Order(req.body);
+
+  // here we have to update stocks;
+  for (let item of order.items) {
+    let product = await Product.findOne({ _id: item.product.id });
+    // We dont have any decrement operator but increment ka ha. Mongoose increment
+    product.$inc("stock", -1 * item.quantity);
+    // for optimum performance we should make inventory outside of product.
+    await product.save();
+  }
+
   try {
     const doc = await order.save();
     const user = await User.findById(order.user); // order ke model mein user ha
