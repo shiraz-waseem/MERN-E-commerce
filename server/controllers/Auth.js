@@ -82,7 +82,10 @@ const resetPasswordRequest = async (req, res) => {
     await user.save();
     // Also set token in email
     const resetPageLink =
-      "http://localhost:3000/reset-password?token=" + token + "&email=" + email;
+      "https://ecommerce-store-nu.vercel.app/reset-password?token=" +
+      token +
+      "&email=" +
+      email;
     const subject = "reset password for e-commerce";
     const html = `<p>Click <a href='${resetPageLink}'>here</a> to Reset Password</p>`;
 
