@@ -103,6 +103,18 @@ const ProductForm = () => {
     }
   }, [selectedProduct, params.id, setValue]);
 
+  // base64url
+  const handleFileChange = (e, fieldName) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setValue(fieldName, reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleDelete = () => {
     const product = { ...selectedProduct };
     product.deleted = true;
@@ -334,7 +346,7 @@ const ProductForm = () => {
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ">
                     <input
-                      type="number"
+                      type="text"
                       {...register("price", {
                         required: "price is required",
                         min: 1,
@@ -402,6 +414,12 @@ const ProductForm = () => {
                 >
                   Thumbnail
                 </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, "thumbnail")}
+                  className="block w-full mt-2"
+                />
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ">
                     <input
@@ -424,6 +442,12 @@ const ProductForm = () => {
                 >
                   Image 1
                 </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, "image1")}
+                  className="block w-full mt-2"
+                />
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ">
                     <input
@@ -446,6 +470,12 @@ const ProductForm = () => {
                 >
                   Image 2
                 </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, "image2")}
+                  className="block w-full mt-2"
+                />
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ">
                     <input
@@ -468,6 +498,12 @@ const ProductForm = () => {
                 >
                   Image 3
                 </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, "image3")}
+                  className="block w-full mt-2"
+                />
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ">
                     <input

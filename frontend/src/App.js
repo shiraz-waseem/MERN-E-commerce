@@ -36,7 +36,8 @@ import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import StripeCheckout from "./pages/StripeCheckout";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const options = {
   timeout: 5000,
   position: positions.BOTTOM_LEFT,
@@ -188,6 +189,7 @@ function App() {
       {/* Link must be inside the Provider */}
       {userChecked && (
         <Provider template={AlertTemplate} {...options}>
+          <ToastContainer />
           <RouterProvider router={router} />
         </Provider>
       )}

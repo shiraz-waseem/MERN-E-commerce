@@ -62,7 +62,7 @@ export default function CheckoutForm() {
       confirmParams: {
         // Make sure to change this to your payment completion page
         // return_url: "http://localhost:3000",
-        return_url: `https://ecommerce-store-nu.vercel.app/order-success/${currentOrder.id}`,
+        return_url: `https://ecommerce-store-shiraz-waseems-projects.vercel.app/order-success/${currentOrder.id}`,
       },
     });
 
