@@ -4,8 +4,10 @@ import { Link, Navigate } from "react-router-dom";
 import { loginUserAsync } from "../authSlice";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-
+import { Oval } from "react-loader-spinner";
+import { toast } from "react-toastify";
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const error = useSelector(selectError);
   const user = useSelector(selectLoggedInUser);
@@ -16,6 +18,29 @@ const Login = () => {
   } = useForm();
 
   // console.log(errors);
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      // Unwrap the dispatched action to handle the result or error
+      await dispatch(
+        loginUserAsync({
+          email: data.email,
+          password: data.password,
+        })
+      ).unwrap();
+
+      toast.success("Logged in successfully!", {
+        position: "bottom-right",
+      });
+    } catch (error) {
+      toast.error(`Error: ${error.error || "Login failed!"}`, {
+        position: "bottom-right",
+      });
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -54,14 +79,17 @@ const Login = () => {
                 </div>
                 <form
                   noValidate
-                  onSubmit={handleSubmit((data) => {
-                    dispatch(
-                      loginUserAsync({
-                        email: data.email,
-                        password: data.password,
-                      })
-                    );
-                  })}
+                  // onSubmit={handleSubmit((data) => {
+                  //   setLoading(true);
+                  //   dispatch(
+                  //     loginUserAsync({
+                  //       email: data.email,
+                  //       password: data.password,
+                  //     })
+                  //   );
+                  //   setLoading(false);
+                  // })}
+                  onSubmit={handleSubmit(onSubmit)}
                 >
                   <div className="mx-auto max-w-xs">
                     <input
@@ -126,18 +154,30 @@ const Login = () => {
                       type="submit"
                       className="mt-5 tracking-wide font-semibold bg-blue-500 text-white w-full py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                     >
-                      <svg
-                        className="w-6 h-6 -ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                        <circle cx="8.5" cy="7" r="4" />
-                        <path d="M20 8v6M23 11h-6" />
-                      </svg>
+                      {loading ? (
+                        <Oval
+                          visible={true}
+                          height="1.5rem"
+                          width="1.5rem"
+                          color="#fff"
+                          ariaLabel="oval-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      ) : (
+                        <svg
+                          className="w-6 h-6 -ml-2"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                          <circle cx="8.5" cy="7" r="4" />
+                          <path d="M20 8v6M23 11h-6" />
+                        </svg>
+                      )}
                       <span className="ml-2">Sign in</span>
                     </button>
                     <p className="mt-10 text-center text-sm text-gray-500">

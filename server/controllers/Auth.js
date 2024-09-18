@@ -8,6 +8,12 @@ const SECRET_KEY = "SECRET_KEY";
 const createUser = async (req, res) => {
   const user = new User(req.body);
   try {
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      console.log("I got hit");
+      return res.status(400).json({ error: "Email Already Exists" });
+    }
+
     const salt = crypto.randomBytes(16);
     crypto.pbkdf2(
       // rounds, strength, algorithm
@@ -82,10 +88,8 @@ const resetPasswordRequest = async (req, res) => {
     await user.save();
     // Also set token in email
     const resetPageLink =
-      "https://ecommerce-store-shiraz-waseems-projects.vercel.app/reset-password?token=" +
-      token +
-      "&email=" +
-      email;
+      // "https://ecommerce-store-shiraz-waseems-projects.vercel.app/reset-password?token=" +
+      "http://localhost:3000/reset-password?token=" + token + "&email=" + email;
     const subject = "reset password for e-commerce";
     const html = `<p>Click <a href='${resetPageLink}'>here</a> to Reset Password</p>`;
 
@@ -97,7 +101,7 @@ const resetPasswordRequest = async (req, res) => {
       res.sendStatus(400);
     }
   } else {
-    res.sendStatus(400);
+    res.status(404).json({ message: "The Email Address doesn't exist!" }); // Updated error response
   }
 };
 

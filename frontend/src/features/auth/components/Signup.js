@@ -38,10 +38,14 @@ const Signup = () => {
       });
     } catch (error) {
       // Handle error and show error toast
-      toast.error(`Error: ${error.message || "Account creation failed!"}`, {
-        position: "bottom-right",
-      });
-      setLoading(false);
+      console.log("Error: ", error);
+
+      toast.error(
+        `${error.error || error.message || "Account creation failed!"}`,
+        {
+          position: "bottom-right",
+        }
+      );
     } finally {
       setLoading(false); // Always set loading to false after request completes
     }
