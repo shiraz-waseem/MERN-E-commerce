@@ -9,7 +9,7 @@
 
 export function fetchProductById(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`/products/${id}`);
+    const response = await fetch(`http://localhost:8000/products/${id}`);
     // /products?id=${id}
     const data = await response.json();
     resolve({ data });
@@ -19,7 +19,7 @@ export function fetchProductById(id) {
 // For admin
 export function createProduct(product) {
   return new Promise(async (resolve) => {
-    const response = await fetch("/products/", {
+    const response = await fetch("http://localhost:8000/products/", {
       method: "POST",
       body: JSON.stringify(product),
       headers: { "content-type": "application/json" },
@@ -31,11 +31,14 @@ export function createProduct(product) {
 
 export function updateProduct(update) {
   return new Promise(async (resolve) => {
-    const response = await fetch("/products/" + update.id, {
-      method: "PATCH",
-      body: JSON.stringify(update),
-      headers: { "content-type": "application/json" },
-    });
+    const response = await fetch(
+      "http://localhost:8000/products/" + update.id,
+      {
+        method: "PATCH",
+        body: JSON.stringify(update),
+        headers: { "content-type": "application/json" },
+      }
+    );
     const data = await response.json();
     // TODO: on server it will only return some info of user (not password)
     resolve({ data });
@@ -88,7 +91,9 @@ export function fetchProductsByFilters(filter, sort, pagination, admin) {
 
   return new Promise(async (resolve) => {
     //TODO: we will not hard-code server URL here
-    const response = await fetch("/products?" + queryString);
+    const response = await fetch(
+      "http://localhost:8000/products?" + queryString
+    );
     const data = await response.json();
     console.log(data);
     // const products = data.data;
@@ -108,7 +113,7 @@ export function fetchProductsByFilters(filter, sort, pagination, admin) {
 
 export function fetchCategories() {
   return new Promise(async (resolve) => {
-    const response = await fetch("/categories");
+    const response = await fetch("http://localhost:8000/categories");
     const data = await response.json();
     resolve({ data });
   });
@@ -116,7 +121,7 @@ export function fetchCategories() {
 
 export function fetchBrands() {
   return new Promise(async (resolve) => {
-    const response = await fetch("/brands");
+    const response = await fetch("http://localhost:8000/brands");
     const data = await response.json();
     resolve({ data });
   });

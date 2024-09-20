@@ -234,7 +234,7 @@ passport.use(
 
 // this creates session variable req.user on being called from callbacks. Jab ap first time login krte
 passport.serializeUser(function (user, cb) {
-  console.log("serialize", user); // it returnd a to z everything about user so
+  // console.log("serialize", user); // it returnd a to z everything about user so
   process.nextTick(function () {
     return cb(null, {
       id: user.id,

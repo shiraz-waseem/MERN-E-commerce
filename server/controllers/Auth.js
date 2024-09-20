@@ -67,7 +67,8 @@ const loginUser = async (req, res) => {
 
 const checkAuth = async (req, res) => {
   // res.json({ status: "success", user: req.user });
-
+  console.log("In Auth API", req.user);
+  console.log("I am in AUTH API");
   if (req.user) {
     res.json(req.user);
   } else {

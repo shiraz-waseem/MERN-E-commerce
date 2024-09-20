@@ -8,7 +8,6 @@ const {
   logout,
 } = require("../controllers/Auth");
 const passport = require("passport");
-
 const router = express.Router();
 
 router.post("/signup", createUser);
