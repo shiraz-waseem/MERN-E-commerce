@@ -6,14 +6,20 @@ const initialState = {
   orders: [],
   currentOrder: null,
   totalOrders: 0,
+  error: null,
 };
 
 export const createOrderAsync = createAsyncThunk(
   "order/createOrder",
-  async (order) => {
-    const response = await createOrder(order);
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+  async (order, { rejectWithValue }) => {
+    try {
+      const response = await createOrder(order);
+      // Return the fulfilled action payload
+      return response.data;
+    } catch (error) {
+      // Return the rejected action payload
+      return rejectWithValue(error.message);
+    }
   }
 );
 

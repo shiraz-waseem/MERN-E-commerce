@@ -1,7 +1,7 @@
 import React from "react";
 import ProductDetail from "../features/product/components/ProductDetail";
 import NavBar from "../features/navbar/Navbar";
-import Footer from "../features/common/Footer";
+import Footer from "../components/Footer";
 
 const ProductDetailPage = () => {
   return (

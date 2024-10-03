@@ -14,6 +14,8 @@ import {
 } from "../features/order/orderSlice";
 import { selectUserInfo } from "../features/user/userSlice";
 import { discountedPrice } from "../app/constants";
+import { toast } from "react-toastify";
+import { Oval } from "react-loader-spinner";
 
 function Checkout() {
   const dispatch = useDispatch();
@@ -43,10 +45,11 @@ function Checkout() {
 
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleAddress = (e) => {
     console.log(e.target.value);
-    setSelectedAddress(user.addresses[e.target.value]);
+    setSelectedAddress(user?.addresses[e.target.value]);
   };
 
   const handlePayment = (e) => {
@@ -56,6 +59,7 @@ function Checkout() {
 
   const handleOrder = (e) => {
     if (selectedAddress && paymentMethod) {
+      setLoading(true);
       const order = {
         items,
         totalAmount,
@@ -63,15 +67,29 @@ function Checkout() {
         user: user.id,
         paymentMethod,
         selectedAddress,
-        status: "pending", // other status can be delivered, received.
+        status: "pending",
       };
-      dispatch(createOrderAsync(order));
-      //TODO : Redirect to order-success page
-      //TODO : clear cart after order
-      //TODO : on server change the stock number of items
+
+      dispatch(createOrderAsync(order))
+        .unwrap() // To get the fulfilled or rejected promise result
+        .then((response) => {
+          toast.success("Order placed successfully!", {
+            position: "bottom-right",
+          });
+          setLoading(false);
+          // TODO: Redirect to order-success page
+          // TODO: Clear cart after order
+        })
+        .catch((error) => {
+          toast.error(error || `Order failed. Please try again`, {
+            position: "bottom-right",
+          });
+          setLoading(false);
+        });
     } else {
-      // TODO : we can use proper messaging popup here
-      alert("Enter Address and Payment method");
+      toast.warn("Please enter both address and payment method.", {
+        position: "bottom-right",
+      });
     }
   };
   return (
@@ -89,7 +107,7 @@ function Checkout() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3" style={{ margin: "0 auto" }}>
             <form
               className="bg-white px-5 py-12 mt-12"
               noValidate
@@ -99,7 +117,7 @@ function Checkout() {
                   updateUserAsync({
                     ...user,
                     // porana sarey addresses bhi maintain and naya address data mein wo send
-                    addresses: [...user.addresses, data],
+                    addresses: [...user?.addresses, data],
                   })
                 );
                 reset();
@@ -324,7 +342,7 @@ function Checkout() {
                     Choose from Existing addresses
                   </p>
                   <ul>
-                    {user.addresses.map((address, index) => (
+                    {user?.addresses.map((address, index) => (
                       <li
                         key={index}
                         className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200"
@@ -500,13 +518,29 @@ function Checkout() {
                     onClick={handleOrder}
                     className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                   >
-                    Order Now
+                    {loading ? (
+                      <>
+                        <Oval
+                          visible={true}
+                          height="1.5rem"
+                          width="1.5rem"
+                          color="#fff"
+                          ariaLabel="oval-loading"
+                          wrapperStyle={{ marginRight: "5px" }}
+                          wrapperClass=""
+                        />
+                        Order Now
+                      </>
+                    ) : (
+                      " Order Now"
+                    )}
+                    {/* Order Now */}
                   </div>
                 </div>
                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                   <p>
                     <span className="mx-1">or</span>
-                    <Link to="/">
+                    <Link to="/products">
                       <button
                         type="button"
                         className="font-medium text-indigo-600 hover:text-indigo-500"

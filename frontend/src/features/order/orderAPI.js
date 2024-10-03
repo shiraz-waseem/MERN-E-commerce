@@ -1,13 +1,25 @@
 export function createOrder(order) {
-  return new Promise(async (resolve) => {
-    //TODO: we will not hard-code server URL here
-    const response = await fetch("/orders", {
-      method: "POST",
-      body: JSON.stringify(order),
-      headers: { "content-type": "application/json" },
-    });
-    const data = await response.json();
-    resolve({ data });
+  return new Promise(async (resolve, reject) => {
+    try {
+      // TODO: Don't hard-code server URL here
+      const response = await fetch("http://localhost:8000/orders/", {
+        method: "POST",
+        body: JSON.stringify(order),
+        headers: { "content-type": "application/json" },
+      });
+
+      // Check if the response is OK (status 200-299)
+      if (!response.ok) {
+        const errorData = await response.json();
+        reject(new Error(errorData.message || "Failed to create order"));
+      }
+
+      const data = await response.json();
+      resolve({ data });
+    } catch (error) {
+      // Catch any network or unexpected errors
+      reject(new Error(error.message || "Network error"));
+    }
   });
 }
 
@@ -24,7 +36,7 @@ export function fetchAllOrders(sort, pagination) {
 
   return new Promise(async (resolve) => {
     //TODO: we will not hard-code server URL here
-    const response = await fetch("/orders?" + queryString);
+    const response = await fetch("http://localhost:8000/orders?" + queryString);
     const data = await response.json();
     console.log("Data is: ", data);
     // const totalOrders = await response.headers.get("X-Total-Count");
@@ -44,7 +56,7 @@ export function fetchAllOrders(sort, pagination) {
 // Update order
 export function updateOrder(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch("/orders/" + order.id, {
+    const response = await fetch("http://localhost:8000/orders/" + order.id, {
       method: "PATCH",
       body: JSON.stringify(order),
       headers: { "content-type": "application/json" },

@@ -38,6 +38,7 @@ import StripeCheckout from "./pages/StripeCheckout";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FrontPage from "./pages/FrontPage";
 const options = {
   timeout: 5000,
   position: positions.BOTTOM_LEFT,
@@ -46,6 +47,15 @@ const options = {
 const router = createBrowserRouter([
   {
     path: "/",
+    element: (
+      // <Protected>
+      <FrontPage></FrontPage>
+      // </Protected>
+    ),
+  },
+
+  {
+    path: "/products",
     element: (
       <Protected>
         <Home></Home>

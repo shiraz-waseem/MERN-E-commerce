@@ -55,6 +55,7 @@ export const fetchBrandsAsync = createAsyncThunk(
   async () => {
     const response = await fetchBrands();
     // The value we return becomes the `fulfilled` action payload
+    console.log(response.data);
     return response.data;
   }
 );
@@ -70,9 +71,14 @@ export const fetchCategoriesAsync = createAsyncThunk(
 // For admin
 export const createProductAsync = createAsyncThunk(
   "product/create",
-  async (product) => {
-    const response = await createProduct(product);
-    return response.data;
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await createProduct(product);
+      return response.data;
+    } catch (error) {
+      // Pass the error message to the rejected action
+      return rejectWithValue(error.message || error.error || "Unknown error");
+    }
   }
 );
 

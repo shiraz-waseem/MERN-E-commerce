@@ -14,7 +14,7 @@ import {
   selectTotalOrders,
   updateOrderAsync,
 } from "../../order/orderSlice";
-
+import "../../../responsive.css";
 const AdminOrders = () => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
@@ -88,10 +88,10 @@ const AdminOrders = () => {
   return (
     <div className="overflow-x-auto">
       <div className=" bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
-        <div className="w-full">
+        <div className="w-full" style={{ overflowX: "scroll" }}>
           total Orders : {totalOrders}
           <div className="bg-white shadow-md rounded my-6">
-            <table className="w-full table-auto">
+            <table className="w-full table-auto bg-white shadow-md">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                   {/* <th className="py-3 px-2 text-left">Order# </th> */}
@@ -186,7 +186,7 @@ const AdminOrders = () => {
                       {/* Order items */}
                       <td className="py-3 px-0 text-left">
                         {order.items.map((item) => (
-                          <div className="flex items-center">
+                          <div className="flex items-center flex-col">
                             <div className="mr-2">
                               <img
                                 className="w-6 h-6 rounded-full"

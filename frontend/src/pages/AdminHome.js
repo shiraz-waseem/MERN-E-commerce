@@ -1,6 +1,6 @@
 import AdminProductList from "../features/admin/components/AdminProductList";
 import NavBar from "../features/navbar/Navbar";
-import Footer from "../features/common/Footer";
+import Footer from "../components/Footer";
 
 function AdminHome() {
   return (

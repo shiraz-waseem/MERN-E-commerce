@@ -18,14 +18,25 @@ export function fetchProductById(id) {
 
 // For admin
 export function createProduct(product) {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/products/", {
-      method: "POST",
-      body: JSON.stringify(product),
-      headers: { "content-type": "application/json" },
-    });
-    const data = await response.json();
-    resolve({ data });
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch("http://localhost:8000/products", {
+        method: "POST",
+        body: JSON.stringify(product),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // Check if the response is not ok (e.g., status 400 or 500)
+      if (!response.ok) {
+        const errorData = await response.json();
+        reject(errorData); // Reject the promise with the error data
+      } else {
+        const data = await response.json();
+        resolve({ data });
+      }
+    } catch (err) {
+      reject({ message: "Failed to create product", error: err });
+    }
   });
 }
 
