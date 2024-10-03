@@ -7,7 +7,7 @@ const {
   updateProduct,
 } = require("../controllers/Product");
 
-router.post("/", createProduct);
+router.post("", createProduct);
 router.get("/", fetchAllProducts);
 router.get("/:id", fetchProductById);
 router.patch("/:id", updateProduct);

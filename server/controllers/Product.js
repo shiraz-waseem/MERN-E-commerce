@@ -1,13 +1,26 @@
 const Product = require("../models/Product");
 
 const createProduct = async (req, res) => {
+  // console.log(req.body);
   const product = new Product(req.body); // req.body API Call frontend sy aye gy
 
   try {
+    const existingProduct = await Product.findOne({ title: req.body.title });
+
+    if (existingProduct) {
+      // If a product with the same title exists, send a 400 response with an error message
+      return res.status(400).json({
+        message: "The title has been taken",
+      });
+    }
     const doc = await product.save();
     res.status(201).json(doc);
   } catch (err) {
-    res.status(400).json(err);
+    console.log(err);
+    res.status(400).json({
+      message: "Failed to create product",
+      error: err.message || "Unknown error occurred",
+    });
   }
 };
 
@@ -38,12 +51,12 @@ const fetchAllProducts = async (req, res) => {
   }
 
   // same for brand
-  if (req.query.brand) {
-    query = query.find({ brand: { $in: req.query.brand.split(",") } });
-    totalProductsQuery = totalProductsQuery.find({
-      brand: { $in: req.query.brand.split(",") },
-    });
-  }
+  // if (req.query.brand) {
+  //   query = query.find({ brand: { $in: req.query.brand.split(",") } });
+  //   totalProductsQuery = totalProductsQuery.find({
+  //     brand: { $in: req.query.brand.split(",") },
+  //   });
+  // }
 
   // agar _sort ha and order saath hi huty asc ya desc then sorting ki request fire huwi ha
   // sort = {_sort:"price",_order="desc"}

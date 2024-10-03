@@ -10,8 +10,7 @@ const productSchema = new mongoose.Schema({
   },
   discountPercentage: {
     type: Number,
-    min: [1, "wrong min discount"],
-    max: [99, "wrong max discount"],
+    max: [100, "wrong max discount"],
   },
   rating: {
     type: Number,
@@ -20,10 +19,8 @@ const productSchema = new mongoose.Schema({
     default: 0,
   },
   stock: { type: Number, min: [0, "wrong min stock"], default: 0 },
-  brand: { type: String, required: true },
   category: { type: String, required: true },
   thumbnail: { type: String, required: true },
-  images: { type: [String], required: true }, // array of string
   colors: { type: [mongoose.Schema.Types.Mixed] },
   sizes: { type: [mongoose.Schema.Types.Mixed] },
   highlights: { type: [String] },

@@ -19,32 +19,74 @@ const fetchOrdersByUser = async (req, res) => {
   }
 };
 
+// const createOrder = async (req, res) => {
+//   console.log("I am here");
+//   const order = new Order(req.body);
+
+//   // here we have to update stocks;
+//   for (let item of order.items) {
+//     let product = await Product.findOne({ _id: item.product.id });
+//     // We dont have any decrement operator but increment ka ha. Mongoose increment
+//     product.$inc("stock", -1 * item.quantity);
+//     // for optimum performance we should make inventory outside of product.
+//     await product.save();
+//   }
+
+//   try {
+//     const doc = await order.save();
+//     const user = await User.findById(order.user); // order ke model mein user ha
+//     // we can use await for this also. Here we are using directly taky non blocking rhy frontend py bhi response ata placed successfully sentmail time leta so we want background mein chala ye
+//     sendMail({
+//       to: user.email,
+//       html: invoiceTemplate(order),
+//       subject: "Order Received",
+//     });
+//     console.log(doc);
+//     res.status(201).json(doc);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).json(err);
+//   }
+// };
+
 const createOrder = async (req, res) => {
   const order = new Order(req.body);
 
-  // here we have to update stocks;
-  for (let item of order.items) {
-    let product = await Product.findOne({ _id: item.product.id });
-    // We dont have any decrement operator but increment ka ha. Mongoose increment
-    product.$inc("stock", -1 * item.quantity);
-    // for optimum performance we should make inventory outside of product.
-    await product.save();
-  }
-
   try {
+    // Iterate through the items and check stock before proceeding
+    for (let item of order.items) {
+      let product = await Product.findOne({ _id: item.product.id });
+
+      // Check if there is enough stock
+      if (product.stock < item.quantity) {
+        return res.status(400).json({
+          message: `There is not much stock left for ${product.title}. Please choose another item or reduce quantity.`,
+        });
+      }
+
+      // Decrement stock (use $inc for atomic updates in MongoDB)
+      product.stock -= item.quantity;
+      await product.save();
+    }
+
+    // Save the order after stock validation
     const doc = await order.save();
-    const user = await User.findById(order.user); // order ke model mein user ha
-    // we can use await for this also. Here we are using directly taky non blocking rhy frontend py bhi response ata placed successfully sentmail time leta so we want background mein chala ye
+    const user = await User.findById(order.user);
+
+    // Send email asynchronously (non-blocking)
     sendMail({
       to: user.email,
       html: invoiceTemplate(order),
       subject: "Order Received",
     });
-    console.log(doc);
+
     res.status(201).json(doc);
   } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
+    console.error(err);
+    res.status(400).json({
+      message: "Order creation failed. Please try again.",
+      error: err,
+    });
   }
 };
 
