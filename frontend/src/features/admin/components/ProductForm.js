@@ -103,6 +103,7 @@ const ProductForm = () => {
       setValue("discountPercentage", selectedProduct.discountPercentage);
       setValue("thumbnail", selectedProduct.thumbnail);
       setValue("stock", selectedProduct.stock);
+      setValue("rating", selectedProduct.rating);
       setValue("category", selectedProduct.category);
       setValue("highlight1", selectedProduct.highlights[0]);
       setValue("highlight2", selectedProduct.highlights[1]);

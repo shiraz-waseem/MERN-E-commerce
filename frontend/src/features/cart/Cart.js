@@ -9,7 +9,7 @@ import {
   selectCartLoaded,
 } from "./cartSlice";
 import { discountedPrice } from "../../app/constants";
-import { Grid } from "react-loader-spinner";
+import { Grid, Oval } from "react-loader-spinner";
 import Modal from "../common/Modal";
 
 const Cart = () => {
@@ -40,7 +40,7 @@ const Cart = () => {
   return (
     <>
       {!items.length && cartLoaded && (
-        <Navigate to="/products" replace={true}></Navigate>
+        <Navigate to="/items" replace={true}></Navigate>
       )}
 
       <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -51,92 +51,109 @@ const Cart = () => {
           <div className="mt-8">
             <div className="flow-root">
               {status === "loading" ? (
-                <Grid
-                  height="80"
-                  width="80"
-                  color="rgb(79, 70, 229) "
-                  ariaLabel="grid-loading"
-                  radius="12.5"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                  visible={true}
-                />
-              ) : null}
-              <ul className="-my-6 divide-y divide-gray-200">
-                {items.map((item) => (
-                  <li key={item.id} className="flex py-6">
-                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                      <img
-                        src={item.product.thumbnail}
-                        alt={item.product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    margin: "10px",
+                  }}
+                >
+                  <Oval
+                    height="80"
+                    width="80"
+                    color="rgb(79, 70, 229)"
+                    secondaryColor="rgb(79, 70, 229)"
+                    ariaLabel="oval-loading"
+                    radius="12.5"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                  />
+                </div>
+              ) : (
+                <ul className="-my-6 divide-y divide-gray-200">
+                  {items.map((item) => (
+                    <li key={item.id} className="flex py-6">
+                      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <img
+                          src={item.product.thumbnail}
+                          alt={item.product.title}
+                          className="h-full w-full object-cover object-center"
+                        />
+                      </div>
 
-                    <div className="ml-4 flex flex-1 flex-col">
-                      <div>
-                        <div className="flex justify-between text-base font-medium text-gray-900">
-                          <h3>
-                            <a href={item.product.href}>{item.product.title}</a>
-                          </h3>
-                          <p className="ml-4">
-                            ${discountedPrice(item.product) * item.quantity}
+                      <div className="ml-4 flex flex-1 flex-col">
+                        <div>
+                          <div className="flex justify-between text-base font-medium text-gray-900">
+                            <h3>
+                              <a href={item.product.href}>
+                                {item.product.title}
+                              </a>
+                            </h3>
+                            <p className="ml-4">
+                              ${discountedPrice(item.product) * item.quantity}
+                            </p>
+                          </div>
+                          <p className="mt-1 text-sm text-gray-500">
+                            {item.product.brand}
                           </p>
                         </div>
-                        <p className="mt-1 text-sm text-gray-500">
-                          {item.product.brand}
-                        </p>
-                      </div>
-                      <div
-                        className="flex flex-1 items-end justify-between text-sm"
-                        style={{ marginBottom: "22px" }}
-                      >
-                        <div className="text-gray-500">
-                          <label
-                            htmlFor="quantity"
-                            className="inline  mr-5 text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Qty
-                          </label>
-                          <select
-                            onChange={(e) => handleQuantity(e, item)}
-                            value={item.quantity}
-                          >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                          </select>
-                        </div>
+                        <div
+                          className="flex flex-1 items-end justify-between text-sm"
+                          style={{ marginBottom: "22px" }}
+                        >
+                          <div className="text-gray-500">
+                            <label
+                              htmlFor="quantity"
+                              className="inline  mr-5 text-sm font-medium leading-6 text-gray-900"
+                            >
+                              Qty
+                            </label>
+                            <select
+                              onChange={(e) => handleQuantity(e, item)}
+                              value={item.quantity}
+                            >
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                            </select>
+                          </div>
 
-                        <div className="flex">
-                          <Modal
-                            title={`Delete ${item.product.title}`}
-                            message="Are you sure you want to delete this Cart item ?"
-                            dangerOption="Delete"
-                            cancelOption="Cancel"
-                            dangerAction={(e) => handleRemove(e, item.id)}
-                            cancelAction={() => setOpenModal(null)}
-                            showModal={openModal === item.id} // STATE MEIN ID WAS PASSED
-                          ></Modal>
+                          <div className="flex">
+                            <Modal
+                              title={`Delete ${item.product.title}`}
+                              message="Are you sure you want to delete this Cart item ?"
+                              dangerOption="Delete"
+                              cancelOption="Cancel"
+                              dangerAction={(e) => handleRemove(e, item.id)}
+                              cancelAction={() => setOpenModal(null)}
+                              showModal={openModal === item.id} // STATE MEIN ID WAS PASSED
+                            ></Modal>
 
-                          <button
-                            // onClick={(e) => handleRemove(e, item.id)}
-                            onClick={(e) => {
-                              setOpenModal(item.id);
-                            }}
-                            type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                          >
-                            Remove
-                          </button>
+                            <button
+                              // onClick={(e) => handleRemove(e, item.id)}
+                              onClick={(e) => {
+                                setOpenModal(item.id);
+                              }}
+                              type="button"
+                              className="font-medium text-indigo-600 hover:text-indigo-500"
+                            >
+                              Remove
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 
@@ -163,7 +180,7 @@ const Cart = () => {
             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
               <p>
                 or{" "}
-                <Link to="/products">
+                <Link to="/items">
                   <button
                     type="button"
                     className="font-medium text-indigo-600 hover:text-indigo-500"

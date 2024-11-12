@@ -101,9 +101,9 @@ function Checkout() {
           replace={true}
         ></Navigate>
       )}
-      {currentOrder && currentOrder.paymentMethod === "card" && (
+      {/* {currentOrder && currentOrder.paymentMethod === "card" && (
         <Navigate to={`/stripe-checkout/`} replace={true}></Navigate>
-      )}
+      )} */}
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
@@ -402,10 +402,10 @@ function Checkout() {
                             htmlFor="cash"
                             className="block text-sm font-medium leading-6 text-gray-900"
                           >
-                            Cash
+                            Cash on Delivery
                           </label>
                         </div>
-                        <div className="flex items-center gap-x-3">
+                        {/* <div className="flex items-center gap-x-3">
                           <input
                             id="card"
                             onChange={handlePayment}
@@ -421,7 +421,7 @@ function Checkout() {
                           >
                             Card Payment
                           </label>
-                        </div>
+                        </div> */}
                       </div>
                     </fieldset>
                   </div>
@@ -481,6 +481,11 @@ function Checkout() {
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                               </select>
                             </div>
 
@@ -540,7 +545,7 @@ function Checkout() {
                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                   <p>
                     <span className="mx-1">or</span>
-                    <Link to="/products">
+                    <Link to="/items">
                       <button
                         type="button"
                         className="font-medium text-indigo-600 hover:text-indigo-500"

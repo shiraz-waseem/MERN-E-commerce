@@ -187,7 +187,8 @@ const Signup = () => {
             <div
               className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
               style={{
-                backgroundImage: "url('./signup_side.jpg')",
+                backgroundImage: "url('/register.png')",
+                margin: "0 auto",
               }}
             ></div>
           </div>

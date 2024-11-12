@@ -70,7 +70,7 @@ const Product = ({ item }) => {
       <Image src={item.img} />
       <Info>
         <Icon>
-          <Link to="/products">
+          <Link to="/items">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ const Product = ({ item }) => {
           </Link>
         </Icon>
         <Icon>
-          <Link to="/products">
+          <Link to="/items">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

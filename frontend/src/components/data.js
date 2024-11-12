@@ -8,21 +8,21 @@ export const sliderItems = [
     img: "https://www.cyberpower.com/pk/en/File/GetImageByGuid/c1a34da1-fc61-4c4f-9b00-bdb52f89b11c",
     title: "AUTUMN COLLECTION",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-    bg: "fcf1ed",
+    bg: "f5fafd",
   },
   {
     id: 2,
     img: `${WaterPipe}`,
     title: "SUMMER SALE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-    bg: "f5fafd",
+    bg: "fbf0f4",
   },
   {
     id: 3,
     img: `${RollingPaper}`,
     title: "LOUNGEWEAR LOVE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-    bg: "fbf0f4",
+    bg: "f5fafd",
   },
 ];
 

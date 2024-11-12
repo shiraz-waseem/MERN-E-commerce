@@ -2,7 +2,7 @@ export function createOrder(order) {
   return new Promise(async (resolve, reject) => {
     try {
       // TODO: Don't hard-code server URL here
-      const response = await fetch("http://localhost:8000/orders/", {
+      const response = await fetch(`/orders/`, {
         method: "POST",
         body: JSON.stringify(order),
         headers: { "content-type": "application/json" },
@@ -36,7 +36,7 @@ export function fetchAllOrders(sort, pagination) {
 
   return new Promise(async (resolve) => {
     //TODO: we will not hard-code server URL here
-    const response = await fetch("http://localhost:8000/orders?" + queryString);
+    const response = await fetch(`/orders?` + queryString);
     const data = await response.json();
     console.log("Data is: ", data);
     // const totalOrders = await response.headers.get("X-Total-Count");
@@ -56,7 +56,7 @@ export function fetchAllOrders(sort, pagination) {
 // Update order
 export function updateOrder(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8000/orders/" + order.id, {
+    const response = await fetch(`/orders/` + order.id, {
       method: "PATCH",
       body: JSON.stringify(order),
       headers: { "content-type": "application/json" },

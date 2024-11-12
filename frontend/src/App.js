@@ -55,7 +55,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/products",
+    path: "/items",
     element: (
       <Protected>
         <Home></Home>
@@ -63,14 +63,14 @@ const router = createBrowserRouter([
     ),
   },
 
-  {
-    path: "/stripe-checkout/",
-    element: (
-      <Protected>
-        <StripeCheckout></StripeCheckout>
-      </Protected>
-    ),
-  },
+  // {
+  //   path: "/stripe-checkout/",
+  //   element: (
+  //     <Protected>
+  //       <StripeCheckout></StripeCheckout>
+  //     </Protected>
+  //   ),
+  // },
 
   {
     path: "/login",
@@ -81,7 +81,7 @@ const router = createBrowserRouter([
     element: <SignupPage></SignupPage>,
   },
   {
-    path: "/cart",
+    path: "/cartpage",
     element: (
       <Protected>
         <CartPage></CartPage>

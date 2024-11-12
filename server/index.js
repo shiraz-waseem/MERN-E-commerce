@@ -21,7 +21,6 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const { Order } = require("./models/Order");
 // const nodemailer = require("nodemailer");
 
 // //
@@ -38,7 +37,7 @@ const { Order } = require("./models/Order");
 
 // TODO: we will capture actual order after deploying out server live on public URL
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = process.env.WEBHOOK_ENDPOINT;
+// const endpointSecret = process.env.WEBHOOK_ENDPOINT;
 
 // app.post(
 //   "/webhook",
@@ -79,44 +78,44 @@ const endpointSecret = process.env.WEBHOOK_ENDPOINT;
 //   }
 // );
 
-app.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  async (request, response) => {
-    const sig = request.headers["stripe-signature"];
+// app.post(
+//   "/webhook",
+//   express.raw({ type: "application/json" }),
+//   async (request, response) => {
+//     const sig = request.headers["stripe-signature"];
 
-    let event;
+//     let event;
 
-    try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-    } catch (err) {
-      response.status(400).send(`Webhook Error: ${err.message}`);
-      return;
-    }
+//     try {
+//       event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+//     } catch (err) {
+//       response.status(400).send(`Webhook Error: ${err.message}`);
+//       return;
+//     }
 
-    // Handle the event
-    switch (event.type) {
-      case "payment_intent.succeeded":
-        const paymentIntentSucceeded = event.data.object;
-        // Then define and call a function to handle the event payment_intent.succeeded
+//     // Handle the event
+//     switch (event.type) {
+//       case "payment_intent.succeeded":
+//         const paymentIntentSucceeded = event.data.object;
+//         // Then define and call a function to handle the event payment_intent.succeeded
 
-        const order = await Order.findById(
-          paymentIntentSucceeded.metadata.orderId
-        );
-        order.paymentStatus = "received";
-        await order.save();
-        console.log("Payment successful");
+//         const order = await Order.findById(
+//           paymentIntentSucceeded.metadata.orderId
+//         );
+//         order.paymentStatus = "received";
+//         await order.save();
+//         console.log("Payment successful");
 
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
+//         break;
+//       // ... handle other event types
+//       default:
+//         console.log(`Unhandled event type ${event.type}`);
+//     }
 
-    // Return a 200 response to acknowledge receipt of the event
-    response.send();
-  }
-);
+//     // Return a 200 response to acknowledge receipt of the event
+//     response.send();
+//   }
+// );
 
 //
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
@@ -127,10 +126,11 @@ opts.secretOrKey = SECRET_KEY;
 
 const port = process.env.PORT;
 app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
 // app.use(express.static("build"));
 app.use(express.static(path.resolve(__dirname, "build")));
-// console.log(path.resolve(__dirname, "build")); E:\Another Ecommerce\ecommerce\MERN-E-commerce\server\build
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+console.log(path.resolve(__dirname, "build"));
+// E:\Another Ecommerce\ecommerce\MERN-E-commerce\server\build
 app.use(cookieParser());
 
 app.use(
@@ -254,7 +254,7 @@ passport.deserializeUser(function (user, cb) {
 
 // payments
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // const calculateOrderAmount = (items) => {
 //   // Replace this constant with a calculation of the order's amount
@@ -263,28 +263,28 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 //   return 1400;
 // };
 
-app.post("/create-payment-intent", async (req, res) => {
-  // const { items } = req.body;
-  const { totalAmount, orderId } = req.body;
+// app.post("/create-payment-intent", async (req, res) => {
+//   // const { items } = req.body;
+//   const { totalAmount, orderId } = req.body;
 
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    // amount: calculateOrderAmount(items),
-    amount: totalAmount * 100,
-    currency: "inr",
-    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-    automatic_payment_methods: {
-      enabled: true,
-    },
-    metadata: {
-      orderId,
-    },
-  });
+//   // Create a PaymentIntent with the order amount and currency
+//   const paymentIntent = await stripe.paymentIntents.create({
+//     // amount: calculateOrderAmount(items),
+//     amount: totalAmount * 100,
+//     currency: "inr",
+//     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+//     automatic_payment_methods: {
+//       enabled: true,
+//     },
+//     metadata: {
+//       orderId,
+//     },
+//   });
 
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
-});
+//   res.send({
+//     clientSecret: paymentIntent.client_secret,
+//   });
+// });
 
 // Webhook
 

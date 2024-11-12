@@ -2,7 +2,12 @@ const Order = require("../models/Order");
 const User = require("../models/User");
 const Product = require("../models/Product");
 
-const { sendMail, invoiceTemplate } = require("../services/common");
+const {
+  sendMail,
+  invoiceTemplate,
+  receiveemail,
+  invoiceTemplateAdmin,
+} = require("../services/common");
 
 const fetchOrdersByUser = async (req, res) => {
   // extracts the user parameter from the query string of the incoming request. For example,
@@ -78,6 +83,12 @@ const createOrder = async (req, res) => {
       to: user.email,
       html: invoiceTemplate(order),
       subject: "Order Received",
+    });
+
+    receiveemail({
+      to: "maliktraders123321@gmail.com",
+      html: invoiceTemplateAdmin(order),
+      subject: "Someone Placed An Order",
     });
 
     res.status(201).json(doc);

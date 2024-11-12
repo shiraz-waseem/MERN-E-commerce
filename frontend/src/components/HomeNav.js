@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { mobile, GZF5 } from "./responsive";
+import { mobile, GZF5, iPad, Tablet } from "./responsive";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -26,12 +26,13 @@ const Left = styled.div`
   display: flex;
   align-items: center;
   ${GZF5({ flex: "0", padding: "5px" })}
+  ${Tablet({ flex: "none" })}
 `;
 
 const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
-  ${GZF5({ display: "none" })}
+  ${Tablet({ display: "none" })}
 `;
 
 const SearchContainer = styled.div`
@@ -55,7 +56,8 @@ const Center = styled.div`
 const Logo = styled.h1`
   font-weight: bold;
   font-size: 25px;
-  ${mobile({ fontSize: "24px" })}
+  ${iPad({ fontSize: "20px" })}
+  ${GZF5({ fontSize: "13px" })}
 `;
 
 const Right = styled.div`
@@ -103,13 +105,13 @@ const HomeNav = () => {
           </SearchContainer> */}
         </Left>
         <Center>
-          <Logo>SHIRAZ.</Logo>
+          <Logo>MALIK Traders.</Logo>
         </Center>
         {/* IF NOT LOGGED IN THEN SHOW Otherwise Products */}
         <Right>
           {user ? (
             <OneMenuItem>
-              <Link to="/products">BUY NOW</Link>
+              <Link to="/items">BUY NOW</Link>
             </OneMenuItem>
           ) : (
             <>
@@ -125,7 +127,7 @@ const HomeNav = () => {
         </Right>
         <MenuItem>
           <div className="ml-4 flex items-center md:ml-6">
-            <Link to="/cart">
+            <Link to="/cartpage">
               <button
                 type="button"
                 className="rounded-full text-black-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:ring-offset-gray-800"

@@ -48,14 +48,13 @@ const Login = () => {
       <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
         <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
           {/* Left Side Image */}
-          <div
-            className="hidden lg:flex lg:w-1/2 bg-blue-100 items-center justify-center"
-            style={{ width: "60%" }}
-          >
+          <div className="flex-1 bg-blue-100 text-center hidden lg:flex">
+            {/* About Products */}
             <div
               className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
               style={{
-                backgroundImage: "url('./signup_side.jpg')",
+                backgroundImage: "url('/login.png')",
+                margin: "0 auto",
               }}
             ></div>
           </div>

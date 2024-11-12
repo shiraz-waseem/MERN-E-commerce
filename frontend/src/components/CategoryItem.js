@@ -53,7 +53,7 @@ const CategoryItem = ({ item }) => {
       <Info>
         <Title>{item.title}</Title>
         <Button>
-          <Link to="/products">SHOP NOW</Link>
+          <Link to="/items">SHOP NOW</Link>
         </Button>
       </Info>
     </Container>
