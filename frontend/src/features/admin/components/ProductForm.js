@@ -105,7 +105,7 @@ const ProductForm = () => {
       setValue("stock", selectedProduct.stock);
       setValue("rating", selectedProduct.rating);
       setValue("category", selectedProduct.category);
-      setValue("highlight1", selectedProduct.highlights[0]);
+      setValue("highlight1", selectedProduct?.highlights[0]);
       setValue("highlight2", selectedProduct.highlights[1]);
       setValue("highlight3", selectedProduct.highlights[2]);
       setValue("highlight4", selectedProduct.highlights[3]);
@@ -300,7 +300,7 @@ const ProductForm = () => {
                 </label>
                 <div className="mt-2">
                   <div className="mt-2">
-                    {colors.map((color) => (
+                    {colors?.map((color) => (
                       <div key={color.id}>
                         <input
                           type="checkbox"

@@ -5,12 +5,14 @@ const createProduct = async (req, res) => {
   const product = new Product(req.body); // req.body API Call frontend sy aye gy
 
   try {
-    const existingProduct = await Product.findOne({ title: req.body.title });
+    const existingProduct = await Product.findOne({
+      description: req.body.description,
+    });
 
     if (existingProduct) {
       // If a product with the same title exists, send a 400 response with an error message
       return res.status(400).json({
-        message: "The title has been taken",
+        message: "The Description has been taken",
       });
     }
     const doc = await product.save();
@@ -103,6 +105,7 @@ const fetchProductById = async (req, res) => {
 
 // sirf jo field change woh hugy
 const updateProduct = async (req, res) => {
+  console.log("I got hit");
   const { id } = req.params;
 
   try {

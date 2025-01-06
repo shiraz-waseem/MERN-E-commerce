@@ -227,12 +227,22 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 <Desc>{product?.description}</Desc>
-                <p className="text-xl line-through tracking-tight text-gray-900">
-                  $ {product.price}
-                </p>
-                <p className="text-3xl tracking-tight text-gray-900">
-                  $ {discountedPrice(product)}
-                </p>
+                <div>
+                  {product.discountPercentage > 0 ? (
+                    <>
+                      <p className="text-xl line-through tracking-tight text-gray-900">
+                        $ {product.price}
+                      </p>
+                      <p className="text-3xl tracking-tight text-gray-900">
+                        $ {discountedPrice(product)}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-3xl tracking-tight text-gray-900">
+                      $ {product.price}
+                    </p>
+                  )}
+                </div>
                 <FilterContainer>
                   <form className="mt-10">
                     {product.colors && product.colors.length > 0 && (
