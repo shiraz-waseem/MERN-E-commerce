@@ -48,6 +48,7 @@ export function updateProduct(update) {
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
+    console.log(data);
     // TODO: on server it will only return some info of user (not password)
     resolve({ data });
   });
@@ -56,24 +57,7 @@ export function updateProduct(update) {
 // admin thing
 
 export function fetchProductsByFilters(filter, sort, pagination, admin) {
-  // filter = {"category":["smartphone","laptops"]}
-  // sort = {_sort:"price",_order="desc"}
-  // pagination = {_page:1,_limit=10}
-  // TODO : on server we will support multi values in filter
-  // TODO : Server will filter deleted products in case of non-admin
-
   let queryString = "";
-
-  // for (let key in filter) {
-  //   // queryString += `${key}=${filter[key]}&`;
-  //   const categoryValues = filter[key]; // poora array agaya
-
-  //   // last index last category value mil jana array mein sy. Future mein poora array bhej dia kre gy abhi sirf last category utha pa rha
-  //   if (categoryValues.length) {
-  //     const lastCategoryValue = categoryValues[categoryValues.length - 1];
-  //     queryString += `${key}=${lastCategoryValue}&`;
-  //   }
-  // }
 
   for (let key in filter) {
     const categoryValues = filter[key];
@@ -102,16 +86,6 @@ export function fetchProductsByFilters(filter, sort, pagination, admin) {
     const response = await fetch(`/products?` + queryString);
     const data = await response.json();
     console.log(data);
-    // const products = data.data;
-    // console.log("products to products is: ", products);
-    // const totalItems = data.items;
-    // console.log(totalItems);
-    // // issue yahan py arha
-    // // const totalItems = response.headers.get("X-Total-Count");
-
-    // resolve({ data: { products: products, totalItems: totalItems } });
-
-    // New
     const totalItems = await response.headers.get("X-Total-Count");
     resolve({ data: { products: data, totalItems: +totalItems } });
   });
@@ -128,6 +102,60 @@ export function fetchCategories() {
 export function fetchBrands() {
   return new Promise(async (resolve) => {
     const response = await fetch(`/brands`);
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+
+export function createCategory(category) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(`/categories`, {
+        method: "POST",
+        body: JSON.stringify(category),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // Check if the response is not ok (e.g., status 400 or 500)
+      if (!response.ok) {
+        const errorData = await response.json();
+        reject(errorData); // Reject the promise with the error data
+      } else {
+        const data = await response.json();
+        resolve({ data });
+      }
+    } catch (err) {
+      reject({ message: "Failed to create category", error: err });
+    }
+  });
+}
+
+export function fetchCategoryById(id) {
+  return new Promise(async (resolve) => {
+    const response = await fetch(`/categories/${id}`);
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+
+export function updateCategory(update) {
+  return new Promise(async (resolve) => {
+    const response = await fetch(`/categories/` + update.id, {
+      method: "PATCH",
+      body: JSON.stringify(update),
+      headers: { "content-type": "application/json" },
+    });
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+
+export function deleteCategory(id) {
+  return new Promise(async (resolve) => {
+    const response = await fetch(`/categories/` + id, {
+      method: "DELETE",
+      headers: { "content-type": "application/json" },
+    });
     const data = await response.json();
     resolve({ data });
   });

@@ -39,6 +39,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FrontPage from "./pages/FrontPage";
+import AdminCategoryFormPage from "./pages/AdminCategoryFormPage";
 const options = {
   timeout: 5000,
   position: positions.BOTTOM_LEFT,
@@ -155,10 +156,26 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/admin/category-form",
+    element: (
+      <ProtectedAdmin>
+        <AdminCategoryFormPage></AdminCategoryFormPage>
+      </ProtectedAdmin>
+    ),
+  },
+  {
     path: "/admin/product-form/edit/:id",
     element: (
       <ProtectedAdmin>
         <AdminProductFormPage></AdminProductFormPage>
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/category-form/edit/:id",
+    element: (
+      <ProtectedAdmin>
+        <AdminCategoryFormPage></AdminCategoryFormPage>
       </ProtectedAdmin>
     ),
   },

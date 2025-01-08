@@ -1,0 +1,8 @@
+.editdlticon {
+  display: flex;
+
+  svg:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
