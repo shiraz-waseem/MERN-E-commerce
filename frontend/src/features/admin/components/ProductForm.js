@@ -156,7 +156,7 @@ const ProductForm = () => {
             product.highlight3,
             product.highlight4,
           ];
-          product.colors = product.colors.map((color) =>
+          product.colors = product.colors?.map((color) =>
             colors.find((clr) => clr.id === color)
           );
           product.sizes = product.sizes.map((size) =>

@@ -476,7 +476,10 @@ function ProductGrid({ products, status }) {
                 (product) =>
                   product?.stock > 0 && (
                     <Link to={`/product-detail/${product.id}`} key={product.id}>
-                      <div className="group relative border-solid border-2 p-2 border-gray-200">
+                      <div
+                        className="group relative border-solid border-2 p-2 border-gray-200"
+                        style={{ height: "100%" }}
+                      >
                         <div className="min-h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                           <img
                             src={product.thumbnail}
@@ -492,10 +495,19 @@ function ProductGrid({ products, status }) {
                                   aria-hidden="true"
                                   className="absolute inset-0"
                                 />
-                                {product.title}
+                                {product.title.length > 61
+                                  ? product.title.substring(0, 61) + ".."
+                                  : product.title}
                               </div>
                             </h3>
-                            <p className="mt-1 text-sm text-gray-500">
+                            <p
+                              className="mt-1 text-sm text-gray-500"
+                              // style={{
+                              //   display: "flex",
+                              //   flexDirection: "row",
+                              //   alignItems: "end",
+                              // }}
+                            >
                               <StarIcon className="w-6 h-6 inline"></StarIcon>
                               <span className=" align-bottom">
                                 {product.rating}
