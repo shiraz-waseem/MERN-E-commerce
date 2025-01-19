@@ -156,10 +156,17 @@ const ProductForm = () => {
             product.highlight3,
             product.highlight4,
           ];
-          product.colors = product.colors?.map((color) =>
+          // product.colors = product.colors?.map((color) =>
+          //   colors.find((clr) => clr.id === color)
+          // );
+          // product.sizes = product.sizes.map((size) =>
+          //   sizes.find((sz) => sz.id === size)
+          // );
+          product.colors = (product.colors || []).map((color) =>
             colors.find((clr) => clr.id === color)
           );
-          product.sizes = product.sizes.map((size) =>
+
+          product.sizes = (product.sizes || []).map((size) =>
             sizes.find((sz) => sz.id === size)
           );
           // product.rating = 0;

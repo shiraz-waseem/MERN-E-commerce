@@ -30,8 +30,8 @@ const ImgContainer = styled.div`
 const Image = styled.img`
   width: 100%;
   height: 90vh;
-  object-fit: cover;
-  ${iPad({ height: "40vh" })}
+  object-fit: fill;
+  ${iPad({ height: "100vh" })}
 `;
 
 const InfoContainer = styled.div`

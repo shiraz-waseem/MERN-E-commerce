@@ -484,7 +484,8 @@ function ProductGrid({ products, status }) {
                           <img
                             src={product.thumbnail}
                             alt={product.title}
-                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                            className="h-full w-full object-contain object-center lg:h-full lg:w-full"
+                            style={{ objectFit: "fill" }}
                           />
                         </div>
                         <div className="mt-4 flex justify-between">
