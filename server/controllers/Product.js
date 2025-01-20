@@ -29,9 +29,6 @@ const createProduct = async (req, res) => {
 // /products?_page=1&_limit=2
 // PostMan Query Params mein value add hurhy
 const fetchAllProducts = async (req, res) => {
-  // let query = Product.find({ deleted: { $ne: true } }); // deleted not equal to true
-  // let totalProductsQuery = Product.find({ deleted: { $ne: true } });
-
   let condition = {};
   if (!req.query.admin) {
     condition.deleted = { $ne: true };
@@ -85,7 +82,12 @@ const fetchAllProducts = async (req, res) => {
 
   try {
     const docs = await query.exec(); // execute
-    res.set("X-Total-Count", totalDocs); // Header ka naam and value to give for header
+    // res.set("X-Total-Count", totalDocs); // Header ka naam and value to give for header
+    res.set({
+      "X-Total-Count": totalDocs,
+      "Access-Control-Expose-Headers": "X-Total-Count",
+    });
+
     res.status(200).json(docs);
   } catch (err) {
     res.status(400).json(err);

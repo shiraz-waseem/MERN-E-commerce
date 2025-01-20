@@ -32,26 +32,26 @@ const ProductForm = () => {
 
   const alert = useAlert();
 
-  const colors = [
-    {
-      name: "White",
-      class: "bg-white",
-      selectedClass: "ring-gray-400",
-      id: "white",
-    },
-    {
-      name: "Gray",
-      class: "bg-gray-200",
-      selectedClass: "ring-gray-400",
-      id: "gray",
-    },
-    {
-      name: "Black",
-      class: "bg-gray-900",
-      selectedClass: "ring-gray-900",
-      id: "black",
-    },
-  ];
+  // const colors = [
+  //   {
+  //     name: "White",
+  //     class: "bg-white",
+  //     selectedClass: "ring-gray-400",
+  //     id: "white",
+  //   },
+  //   {
+  //     name: "Gray",
+  //     class: "bg-gray-200",
+  //     selectedClass: "ring-gray-400",
+  //     id: "gray",
+  //   },
+  //   {
+  //     name: "Black",
+  //     class: "bg-gray-900",
+  //     selectedClass: "ring-gray-900",
+  //     id: "black",
+  //   },
+  // ];
 
   const sizes = [
     { name: "XXS", inStock: true, id: "xxs" },
@@ -113,10 +113,10 @@ const ProductForm = () => {
         "sizes",
         selectedProduct.sizes.map((size) => size.id)
       );
-      setValue(
-        "colors",
-        selectedProduct.colors.map((color) => color.id)
-      );
+      // setValue(
+      //   "colors",
+      //   selectedProduct.colors.map((color) => color.id)
+      // );
     }
   }, [selectedProduct, params.id, setValue]);
 
@@ -162,9 +162,9 @@ const ProductForm = () => {
           // product.sizes = product.sizes.map((size) =>
           //   sizes.find((sz) => sz.id === size)
           // );
-          product.colors = (product.colors || []).map((color) =>
-            colors.find((clr) => clr.id === color)
-          );
+          // product.colors = (product.colors || []).map((color) =>
+          //   colors.find((clr) => clr.id === color)
+          // );
 
           product.sizes = (product.sizes || []).map((size) =>
             sizes.find((sz) => sz.id === size)
@@ -298,7 +298,7 @@ const ProductForm = () => {
               </div> */}
 
               {/* Colors */}
-              <div className="col-span-full">
+              {/* <div className="col-span-full">
                 <label
                   htmlFor="colors"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -324,7 +324,7 @@ const ProductForm = () => {
                     </p>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               {/* SIZES */}
               <div className="col-span-full">

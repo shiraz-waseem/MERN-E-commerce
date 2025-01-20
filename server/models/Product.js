@@ -21,7 +21,6 @@ const productSchema = new mongoose.Schema({
   stock: { type: Number, min: [0, "wrong min stock"], default: 0 },
   category: { type: String, required: true },
   thumbnail: { type: String, required: true },
-  colors: { type: [mongoose.Schema.Types.Mixed] },
   sizes: { type: [mongoose.Schema.Types.Mixed] },
   highlights: { type: [String] },
   deleted: { type: Boolean, default: false },
