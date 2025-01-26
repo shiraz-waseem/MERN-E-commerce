@@ -88,7 +88,11 @@ const fetchAllProducts = async (req, res) => {
       "Access-Control-Expose-Headers": "X-Total-Count",
     });
 
-    res.status(200).json(docs);
+    // res.status(200).json(docs);
+    res.status(200).json({
+      totalItems: totalDocs,
+      products: docs, // Ensure this is an array
+    });
   } catch (err) {
     res.status(400).json(err);
   }
