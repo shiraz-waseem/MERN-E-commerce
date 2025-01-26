@@ -90,12 +90,11 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>SHIRAZ.</Logo>
+        <Logo>Malik Traders.</Logo>
         <Desc>
           {/* We offer... */}
-          There are many variations of passages of Lorem Ipsum available, but
-          the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don’t look even slightly believable.
+          Malik Traders: Canada’s Trusted Store for Quality & Convenience –
+          Shop, Order, and Relax as We Deliver to Your Doorstep!
         </Desc>
         <SocialContainer>
           <SocialIcon color="3B5999">
@@ -113,18 +112,18 @@ const Footer = () => {
         </SocialContainer>
       </Left>
       <Center>
-        <Title>Useful Links</Title>
+        {/* <Title>Useful Links</Title> */}
         <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
+          <ListItem>Hookah</ListItem>
+          <ListItem>Plastic Bags</ListItem>
+          <ListItem>Bongs</ListItem>
+          <ListItem>Rolling Papers</ListItem>
+          <ListItem>Mobile Accessories</ListItem>
+          <ListItem>Duracell Batteries</ListItem>
+          <ListItem>Nibo Gas Lighter Refill</ListItem>
+          <ListItem>Panasonic Batteries</ListItem>
+          <ListItem>Eagle Torch Lighters</ListItem>
+          <ListItem>BIC Lighters</ListItem>
         </List>
       </Center>
 
@@ -142,14 +141,14 @@ const Footer = () => {
             class="fa-solid fa-phone"
             style={{ marginRight: "10px", fontSize: "1.2rem" }}
           ></i>
-          +1 234 56 78
+          +1 (365) 999-9597
         </ContactItem>
         <ContactItem>
           <i
             class="fa-solid fa-envelope"
             style={{ marginRight: "10px", fontSize: "1.2rem" }}
           ></i>
-          contact@shiraz.dev
+          maliktraders123321@gmail.com
         </ContactItem>
         <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
       </Right>

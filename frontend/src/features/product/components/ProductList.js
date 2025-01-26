@@ -28,8 +28,6 @@ import { Link } from "react-router-dom";
 import Pagination from "../../common/Pagination";
 import { Grid, Oval } from "react-loader-spinner";
 
-// WILL CHANGE LATER
-
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
   { name: "Price: Low to High", sort: "price", order: "asc", current: false },
@@ -48,7 +46,6 @@ const ProductList = () => {
 
   console.log("Products are: ", products);
 
-  // const brands = useSelector(selectBrands);
   const categories = useSelector(selectCategories);
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -58,7 +55,7 @@ const ProductList = () => {
   const status = useSelector(selectProductListStatus);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top
+    window.scrollTo(0, 0);
   }, []);
 
   const filters = [
@@ -75,28 +72,16 @@ const ProductList = () => {
   ];
 
   const handleFilter = (e, section, option) => {
-    // console.log(section.id, option.value);
-    // section.id
-    // const newFilter = { ...filter, [section.id]: option.value };
-    // setFilter(newFilter);
-    // dispatch(fetchProductsByFiltersAsync(newFilter));
-
     console.log(e.target.checked);
     const newFilter = { ...filter };
 
-    // TODO : on server it will support multiple categories -> Iske lia push use kre gy as aik array jaisa format bana ga
-
     if (e.target.checked) {
-      // if section.id phely sy bana huwa ya koi filter huwa wa phely sy
       if (newFilter[section.id]) {
         newFilter[section.id].push(option.value);
       } else {
-        // pheli baar hurha tw array bana do array bhi banana huga
-
         newFilter[section.id] = [option.value];
       }
     } else {
-      // hatana wala case phely find krlo and delete krdo splice jo unchecked kia
       const index = newFilter[section.id].findIndex(
         (el) => el === option.value
       );
@@ -108,8 +93,8 @@ const ProductList = () => {
   };
 
   const handleSort = (e, option) => {
-    const sort = { _sort: option.sort, _order: option.order }; //sorting on behalf of regular price not on discount price
-    console.log({ sort }); // sab mil rha in object form
+    const sort = { _sort: option.sort, _order: option.order };
+    console.log({ sort });
     setSort(sort);
   };
 
@@ -119,21 +104,15 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    const pagination = { _page: page, _limit: ITEMS_PER_PAGE }; // _per_page to _limit
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
     dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
-    // TODO : Server will filter deleted products
   }, [dispatch, filter, sort, page]);
-
-  // useEffect(() => {
-  //   dispatch(fetchAllProductsAsync());
-  // }, [dispatch]);
 
   useEffect(() => {
     setPage(1);
   }, [totalItems, sort]);
 
   useEffect(() => {
-    // dispatch(fetchBrandsAsync());
     dispatch(fetchCategoriesAsync());
   }, []);
 

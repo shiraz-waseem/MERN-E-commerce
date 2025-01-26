@@ -11,7 +11,7 @@ export const mobile = (props) => {
 // TO DO different mobile screens. down
 export const GZF5 = (props) => {
   return css`
-    @media only screen and (max-width: 390px) {
+    @media only screen and (max-width: 405px) {
       ${props}
     }
   `;
