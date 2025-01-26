@@ -17,6 +17,14 @@ export const GZF5 = (props) => {
   `;
 };
 
+export const RedmiMobile = (props) => {
+  return css`
+    @media only screen and (max-width: 441px) {
+      ${props}
+    }
+  `;
+};
+
 // For Slider
 export const iPad = (props) => {
   return css`

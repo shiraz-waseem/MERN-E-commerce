@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { mobile, GZF5, iPad, Tablet } from "./responsive";
+import { mobile, GZF5, iPad, Tablet, RedmiMobile } from "./responsive";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -73,7 +73,7 @@ const MenuItem = styled.div`
   cursor: pointer;
   margin-left: 25px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
-
+  ${RedmiMobile({ fontSize: "10px" })}
   &:hover {
     border-bottom: 2px solid black;
   }
@@ -84,7 +84,6 @@ const OneMenuItem = styled.div`
   margin: -25px;
   cursor: pointer;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
-
   &:hover {
     border-bottom: 2px solid black;
   }
