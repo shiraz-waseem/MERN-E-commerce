@@ -85,11 +85,11 @@ const createOrder = async (req, res) => {
       subject: "Order Received",
     });
 
-    receiveemail({
-      to: "maliktraders123321@gmail.com",
-      html: invoiceTemplateAdmin(order),
-      subject: "Someone Placed An Order",
-    });
+    // receiveemail({
+    //   to: "maliktraders123321@gmail.com",
+    //   html: invoiceTemplateAdmin(order),
+    //   subject: "Someone Placed An Order",
+    // });
 
     res.status(201).json(doc);
   } catch (err) {

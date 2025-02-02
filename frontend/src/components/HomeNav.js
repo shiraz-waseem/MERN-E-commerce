@@ -104,7 +104,7 @@ const HomeNav = () => {
           </SearchContainer> */}
         </Left>
         <Center>
-          <Logo>MALIK Traders.</Logo>
+          <Logo>MALIK.</Logo>
         </Center>
         {/* IF NOT LOGGED IN THEN SHOW Otherwise Products */}
         <Right>

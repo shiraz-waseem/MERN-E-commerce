@@ -3,11 +3,15 @@ const Cart = require("../models/Cart");
 const fetchCartByUser = async (req, res) => {
   // const { user } = req.query;
   const { id } = req.user;
+  console.log(id, "I am outside here");
 
   try {
+    console.log("User object in request:", req.user);
     const cartItems = await Cart.find({ user: id }).populate("product");
+    console.log("Here", cartItems);
     res.status(200).json(cartItems);
   } catch (err) {
+    console.log("I got in catch");
     res.status(400).json(err);
   }
 };
