@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
 
 // since function ha tw req.body sy nahi aye gy function ke andr aya ga
 exports.sendMail = async function ({ to, subject, text, html }) {
+  console.log("I am in send mail");
   const info = await transporter.sendMail({
     from: "E-commerce Store <maliktraders@gmail.com>", // sender address
     to, // list of receivers

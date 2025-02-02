@@ -78,20 +78,23 @@ const createOrder = async (req, res) => {
     const doc = await order.save();
     const user = await User.findById(order.user);
 
+    console.log("I am before send mail");
     // Send email asynchronously (non-blocking)
-    sendMail({
+    await sendMail({
       to: user.email,
       html: invoiceTemplate(order),
       subject: "Order Received",
     });
 
-    // receiveemail({
-    //   to: "maliktraders123321@gmail.com",
-    //   html: invoiceTemplateAdmin(order),
-    //   subject: "Someone Placed An Order",
-    // });
+    console.log("I am after send mail");
 
-    res.status(201).json(doc);
+    await receiveemail({
+      to: "maliktraders123321@gmail.com",
+      html: invoiceTemplateAdmin(order),
+      subject: "Someone Placed An Order",
+    });
+
+    await res.status(201).json(doc);
   } catch (err) {
     console.error(err);
     res.status(400).json({
